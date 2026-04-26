@@ -37,6 +37,23 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "url-shortener",
+    title: "URL Shortener",
+    description:
+      "Tiny production-style URL shortener with Redis storage, click analytics, rate limiting and Docker deployment.",
+    tags: ["Node.js", "Express", "TypeScript", "Redis", "Docker"],
+    github: "https://github.com/KassieIII/url-shortener",
+    featured: true,
+  },
+  {
+    slug: "vue-notes",
+    title: "Vue Notes",
+    description:
+      "Offline-first Markdown note app built with Vue 3, Pinia and IndexedDB. Live preview with sanitised HTML.",
+    tags: ["Vue 3", "Pinia", "TypeScript", "IndexedDB"],
+    github: "https://github.com/KassieIII/vue-notes",
+  },
+  {
     slug: "dev-portfolio",
     title: "Developer Portfolio",
     description:

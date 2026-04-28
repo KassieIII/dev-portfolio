@@ -9,15 +9,18 @@ export default function AboutPage() {
 
       <div className="prose dark:prose-invert max-w-none space-y-4 text-zinc-700 dark:text-zinc-300">
         <p>
-          I'm a full-stack developer based in Astana, Kazakhstan with 4+ years
+          I'm a full-stack engineer based in Astana, Kazakhstan with 4+ years
           of commercial experience. My work spans government internal platforms,
           intelligence tools, and AI-integrated products.
         </p>
 
         <p>
-          I like solving real problems with clean, maintainable code. My
-          favorite stack right now is FastAPI + Next.js + PostgreSQL, but I
-          adapt to whatever the project needs.
+          Day-to-day I write <strong>Python</strong>, <strong>Go</strong> and
+          <strong> TypeScript</strong>. I like systems that are small,
+          observable, and boring in production: typed APIs, focused tests,
+          sane CI, and Docker images that don&apos;t pull half the internet.
+          My current go-to stack is FastAPI + Next.js + PostgreSQL, with Go
+          for anything that needs raw concurrency.
         </p>
 
         <h2 className="text-xl font-semibold pt-4">Background</h2>

@@ -5,23 +5,46 @@ export interface SkillGroup {
 
 export const skillGroups: SkillGroup[] = [
   {
+    category: "Languages",
+    skills: ["Python", "Go", "TypeScript", "JavaScript", "SQL"],
+  },
+  {
     category: "Frontend",
-    skills: ["TypeScript", "React", "Next.js", "Vue.js", "Tailwind CSS"],
+    skills: ["React", "Next.js", "Vue 3", "Pinia", "Tailwind CSS", "Vite"],
   },
   {
     category: "Backend",
-    skills: ["Python", "Django", "FastAPI", "Node.js", "Express"],
+    skills: [
+      "FastAPI",
+      "Django",
+      "Express",
+      "Go net/http",
+      "SQLAlchemy 2.0",
+      "Alembic",
+      "asyncio",
+    ],
   },
   {
     category: "Database",
-    skills: ["PostgreSQL", "MySQL", "Redis", "MongoDB"],
+    skills: ["PostgreSQL", "MySQL", "Redis", "MongoDB", "IndexedDB"],
   },
   {
     category: "DevOps",
-    skills: ["Docker", "Linux", "Nginx", "GitHub Actions", "Git"],
+    skills: [
+      "Docker",
+      "Distroless images",
+      "GitHub Actions",
+      "Linux",
+      "Nginx",
+      "Makefile",
+    ],
+  },
+  {
+    category: "Testing",
+    skills: ["pytest", "pytest-asyncio", "vitest", "go test -race", "ruff", "gofmt"],
   },
   {
     category: "Other",
-    skills: ["WebSocket", "REST APIs", "OSINT", "AI / LLM Integration"],
+    skills: ["WebSocket", "REST APIs", "JWT", "OSINT", "AI / LLM Integration"],
   },
 ];

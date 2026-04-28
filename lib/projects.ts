@@ -24,7 +24,7 @@ export const projects: Project[] = [
     description:
       "REST API for task management with JWT authentication, role-based access and PostgreSQL.",
     tags: ["FastAPI", "PostgreSQL", "SQLAlchemy", "JWT"],
-    github: "https://github.com/KassieIII/taskflow-api",
+    github: "https://github.com/KassieIII/TaskFlow-API",
     featured: true,
   },
   {
@@ -52,6 +52,7 @@ export const projects: Project[] = [
       "Offline-first Markdown note app built with Vue 3, Pinia and IndexedDB. Live preview with sanitised HTML.",
     tags: ["Vue 3", "Pinia", "TypeScript", "IndexedDB"],
     github: "https://github.com/KassieIII/vue-notes",
+    featured: true,
   },
   {
     slug: "go-pingmon",

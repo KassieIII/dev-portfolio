@@ -2,6 +2,7 @@
 
 A clean, fast personal portfolio website built with Next.js 14 (App Router), TypeScript, and Tailwind CSS. Features dark mode, smooth animations, and SEO optimization.
 
+[![Live demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://dev-portfolio-sigma-sepia.vercel.app)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3-38bdf8)

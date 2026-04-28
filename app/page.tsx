@@ -16,9 +16,12 @@ export default function HomePage() {
           Hey, I'm <span className="text-accent">Kassym</span>.
         </h1>
         <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl">
-          Full-stack developer based in Astana. I build OSINT intelligence
-          tools, real-time geolocation platforms, and AI-integrated systems.
-          Currently working at Seven Hills, previously at the Ministry of
+          Full-stack engineer based in Astana. I ship typed APIs and SPAs in{" "}
+          <span className="text-accent">Python</span>,{" "}
+          <span className="text-accent">Go</span> and{" "}
+          <span className="text-accent">TypeScript</span> — from concurrent
+          uptime monitors and async REST services to React / Vue / Next.js
+          interfaces. Currently at Seven Hills, previously at the Ministry of
           Internal Affairs of Kazakhstan.
         </p>
 

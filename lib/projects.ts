@@ -54,6 +54,15 @@ export const projects: Project[] = [
     github: "https://github.com/KassieIII/vue-notes",
   },
   {
+    slug: "go-pingmon",
+    title: "Pingmon",
+    description:
+      "Concurrent uptime monitor in Go: worker-pool HTTP prober with CLI one-shot mode and a JSON API. Pure stdlib, distroless ~3 MB image.",
+    tags: ["Go", "HTTP", "Concurrency", "Docker"],
+    github: "https://github.com/KassieIII/go-pingmon",
+    featured: true,
+  },
+  {
     slug: "dev-portfolio",
     title: "Developer Portfolio",
     description:

@@ -44,6 +44,10 @@ export const skillGroups: SkillGroup[] = [
     skills: ["pytest", "pytest-asyncio", "vitest", "go test -race", "ruff", "gofmt"],
   },
   {
+    category: "AI / RAG",
+    skills: ["RAG", "pgvector", "Embeddings", "Ollama", "sentence-transformers"],
+  },
+  {
     category: "Other",
     skills: ["WebSocket", "REST APIs", "JWT", "OSINT", "AI / LLM Integration"],
   },

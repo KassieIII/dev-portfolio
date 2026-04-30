@@ -20,9 +20,9 @@ export default function HomePage() {
           <span className="text-accent">Python</span>,{" "}
           <span className="text-accent">Go</span> and{" "}
           <span className="text-accent">TypeScript</span> — from concurrent
-          uptime monitors and async REST services to React / Vue / Next.js
-          interfaces. Currently at Seven Hills, previously at the Ministry of
-          Internal Affairs of Kazakhstan.
+          uptime monitors and async REST services to RAG pipelines with local
+          LLMs and React / Vue / Next.js interfaces. Currently at Seven Hills,
+          previously at the Ministry of Internal Affairs of Kazakhstan.
         </p>
 
         <div className="flex flex-wrap gap-3 pt-2">

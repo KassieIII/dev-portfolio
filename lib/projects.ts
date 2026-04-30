@@ -37,13 +37,21 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "rag-docs",
+    title: "rag-docs",
+    description:
+      "Ask-your-docs RAG service: ingest Markdown/PDF, retrieve with pgvector HNSW, answer with a local Ollama LLM, every claim cited as [chunk:N]. FastAPI + SQLAlchemy async + bge-small embeddings, with a 25-question eval harness.",
+    tags: ["FastAPI", "pgvector", "Ollama", "RAG", "Embeddings", "Docker"],
+    github: "https://github.com/KassieIII/rag-docs",
+    featured: true,
+  },
+  {
     slug: "url-shortener",
     title: "URL Shortener",
     description:
       "Tiny production-style URL shortener with Redis storage, click analytics, rate limiting and Docker deployment.",
     tags: ["Node.js", "Express", "TypeScript", "Redis", "Docker"],
     github: "https://github.com/KassieIII/url-shortener",
-    featured: true,
   },
   {
     slug: "vue-notes",

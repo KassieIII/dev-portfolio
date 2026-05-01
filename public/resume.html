@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kassym Yermakhanbet — Full-Stack Developer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.5;
+            background: #f5f5f5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .page {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 48px 52px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @media print {
+            body { background: white; }
+            .page { 
+                margin: 0; 
+                padding: 36px 44px; 
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .header .title {
+            font-size: 16px;
+            color: #2563eb;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .contacts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 18px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        .contacts a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .contacts span::before {
+            content: "";
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #2563eb;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 4px;
+            margin-bottom: 12px;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 6px 16px;
+            font-size: 13.5px;
+        }
+
+        .skills-grid .label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .skills-grid .value {
+            color: #444;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 16px;
+        }
+
+        .job:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+
+        .job-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .job-date {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .job-company {
+            font-size: 13.5px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .job ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .job li {
+            font-size: 13.5px;
+            color: #333;
+            padding-left: 16px;
+            position: relative;
+            margin-bottom: 3px;
+        }
+
+        .job li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #2563eb;
+            font-size: 12px;
+        }
+
+        /* Education */
+        .edu-item {
+            margin-bottom: 10px;
+        }
+
+        .edu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .edu-degree {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .edu-date {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .edu-school {
+            font-size: 13.5px;
+            color: #555;
+        }
+
+        /* Languages */
+        .languages {
+            font-size: 13.5px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>Kassym Yermakhanbet</h1>
+            <div class="title">Backend / Full-Stack Engineer · Python · RAG / LLM Systems</div>
+            <div class="contacts">
+                <span>Astana, Kazakhstan · Remote</span>
+                <span>·</span>
+                <a href="mailto:honormorethangold@gmail.com">honormorethangold@gmail.com</a>
+                <span>·</span>
+                <span>+7 708 145 9577</span>
+                <span>·</span>
+                <a href="https://linkedin.com/in/kassym-yermakhanbet-635163235">LinkedIn</a>
+                <span>·</span>
+                <a href="https://github.com/KassieIII">GitHub</a>
+                <span>·</span>
+                <a href="https://dev-portfolio-sigma-sepia.vercel.app">Portfolio</a>
+            </div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="section">
+            <div class="section-title">Summary</div>
+            <p style="font-size: 13.5px; color: #333;">
+                Backend / full-stack engineer with 4+ years of experience shipping typed APIs, internal platforms and AI-integrated products. Hands-on with production-shaped RAG (pgvector HNSW + local LLMs, citation-grounded answers, eval harness), async FastAPI services, Go concurrency tooling, and Next.js / Vue front-ends. Strong on observability, Docker, CI, and measuring what changes — not just shipping it. Open to remote backend / AI engineering roles.
+            </p>
+        </div>
+
+        <!-- FEATURED PROJECT -->
+        <div class="section">
+            <div class="section-title">Featured Open-Source Project</div>
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title"><a href="https://github.com/KassieIII/rag-docs" style="color: #2563eb; text-decoration: none;">rag-docs</a> — Production-shaped RAG service</div>
+                    <div class="job-date">2025</div>
+                </div>
+                <div class="job-company">FastAPI · pgvector HNSW · Ollama · bge-small · cross-encoder rerank</div>
+                <ul>
+                    <li>Citation-grounded ask-your-docs API: every answer must cite source chunks as <code>[chunk:N]</code>; ungrounded claims are filtered before response.</li>
+                    <li>Hybrid retrieval: pgvector HNSW (m=16, ef_construction=64) over 384-dim bge-small embeddings, optional cross-encoder ms-marco-MiniLM rerank.</li>
+                    <li>25-question eval harness with reproducible metrics — <strong>recall@5 = 1.00</strong>, citation accuracy <strong>+15 %</strong> with rerank, <strong>p95 latency −15 %</strong>.</li>
+                    <li>SQLAlchemy 2.0 async + asyncpg, Alembic migrations, ruff + pytest CI on GitHub Actions, multi-stage Docker, production Caddy/TLS deploy stack.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SKILLS -->
+        <div class="section">
+            <div class="section-title">Technical Skills</div>
+            <div class="skills-grid">
+                <div class="label">Frontend</div>
+                <div class="value">TypeScript, React, Next.js, Vue.js, HTML5, CSS3, Bootstrap</div>
+                
+                <div class="label">Backend</div>
+                <div class="value">Python, FastAPI, Django, SQLAlchemy 2.0, asyncpg, Alembic, Go (net/http), Node.js, Express</div>
+                
+                <div class="label">Database</div>
+                <div class="value">PostgreSQL, pgvector (HNSW), Redis, MongoDB, MySQL</div>
+                
+                <div class="label">AI / RAG</div>
+                <div class="value">RAG pipelines, sentence-transformers (bge-small), Ollama (llama3.2), cross-encoder rerank, eval harnesses (recall@k, citation accuracy)</div>
+                
+                <div class="label">DevOps & Tools</div>
+                <div class="value">Docker (multi-stage, distroless), GitHub Actions CI, ruff, pre-commit, Caddy, Nginx, Linux</div>
+                
+                <div class="label">Testing</div>
+                <div class="value">pytest + pytest-asyncio, vitest, go test -race, coverage, integration tests</div>
+                
+                <div class="label">Other</div>
+                <div class="value">WebSocket, Geolocation APIs, OSINT methodologies, Agile/Scrum</div>
+            </div>
+        </div>
+
+        <!-- EXPERIENCE -->
+        <div class="section">
+            <div class="section-title">Professional Experience</div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">Software Development Specialist</div>
+                    <div class="job-date">Jan 2025 — Present</div>
+                </div>
+                <div class="job-company">Seven Hills LLP · Astana, Kazakhstan</div>
+                <ul>
+                    <li>Built a real-time geolocation tracking platform with WebSocket fan-out and live map visualization, serving operational teams across multiple regions</li>
+                    <li>Designed OSINT intelligence tools (IP / DNS / WHOIS lookup, async CIDR port-scanner) feeding investigative workflows</li>
+                    <li>Integrated LLM-based features into existing products: prompt design, retrieval pipelines, and a reproducible eval harness measuring recall, citation accuracy, and latency</li>
+                    <li>Standardised the team workflow on typed Python (FastAPI + SQLAlchemy 2.0 async), Docker multi-stage builds, and GitHub Actions CI</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">Software Developer</div>
+                    <div class="job-date">Jun 2022 — Dec 2024</div>
+                </div>
+                <div class="job-company">Ministry of Internal Affairs of the Republic of Kazakhstan · Astana</div>
+                <ul>
+                    <li>Designed and developed a custom CRM system to optimize internal departmental workflows, reducing manual processing time</li>
+                    <li>Built full-stack web applications with role-based access control for sensitive government data</li>
+                    <li>Maintained and improved legacy systems, migrating components to modern tech stack</li>
+                    <li>Ensured compliance with government security standards and data protection regulations</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="section">
+            <div class="section-title">Education</div>
+
+            <div class="edu-item">
+                <div class="edu-header">
+                    <div class="edu-degree">Bachelor of Science — Computer Engineering & Software</div>
+                    <div class="edu-date">2022</div>
+                </div>
+                <div class="edu-school">International Information Technology University (IITU), Almaty</div>
+            </div>
+
+            <div class="edu-item">
+                <div class="edu-header">
+                    <div class="edu-degree">Bachelor of Laws — Jurisprudence</div>
+                    <div class="edu-date">2024</div>
+                </div>
+                <div class="edu-school">Taraz Regional University (TarGU), Taraz</div>
+            </div>
+
+            <div class="edu-item">
+                <div class="edu-header">
+                    <div class="edu-degree">Nuclear Physics (coursework, transferred)</div>
+                    <div class="edu-date">2015 — 2017</div>
+                </div>
+                <div class="edu-school">L.N. Gumilyov Eurasian National University (ENU), Astana</div>
+            </div>
+        </div>
+
+        <!-- LANGUAGES -->
+        <div class="section">
+            <div class="section-title">Languages</div>
+            <div class="languages">
+                <strong>English</strong> — C1 (Advanced) &nbsp;·&nbsp;
+                <strong>Russian</strong> — Native &nbsp;·&nbsp;
+                <strong>Kazakh</strong> — Native &nbsp;·&nbsp;
+                <strong>German</strong> — Conversational
+            </div>
+        </div>
+    </div>
+</body>
+</html>

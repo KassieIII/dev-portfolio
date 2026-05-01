@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, FileText } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import SkillBadge from "@/components/SkillBadge";
 import { projects } from "@/lib/projects";
@@ -12,17 +12,27 @@ export default function HomePage() {
     <div className="max-w-4xl mx-auto px-6 py-16 space-y-20">
       {/* Hero */}
       <section className="space-y-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium border border-emerald-500/20">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          Open to remote backend / AI engineering roles
+        </div>
+
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
           Hey, I'm <span className="text-accent">Kassym</span>.
         </h1>
         <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl">
-          Full-stack engineer based in Astana. I ship typed APIs and SPAs in{" "}
+          Backend / full-stack engineer based in Astana. I ship typed APIs and SPAs in{" "}
           <span className="text-accent">Python</span>,{" "}
           <span className="text-accent">Go</span> and{" "}
           <span className="text-accent">TypeScript</span> — from concurrent
-          uptime monitors and async REST services to RAG pipelines with local
-          LLMs and React / Vue / Next.js interfaces. Currently at Seven Hills,
-          previously at the Ministry of Internal Affairs of Kazakhstan.
+          uptime monitors and async REST services to{" "}
+          <span className="text-accent">production-shaped RAG</span> with
+          pgvector + local LLMs and React / Vue / Next.js interfaces. Currently
+          at Seven Hills, previously at the Ministry of Internal Affairs of
+          Kazakhstan.
         </p>
 
         <div className="flex flex-wrap gap-3 pt-2">
@@ -33,10 +43,18 @@ export default function HomePage() {
             View Projects <ArrowRight size={16} />
           </Link>
           <a
-            href="mailto:honormorethangold@gmail.com"
+            href="/resume.html"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
-            <Mail size={16} /> Contact
+            <FileText size={16} /> Resume
+          </a>
+          <a
+            href="mailto:honormorethangold@gmail.com?subject=Hiring%20%E2%80%94%20remote%20backend%20%2F%20AI%20role"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          >
+            <Mail size={16} /> Hire me
           </a>
         </div>
 

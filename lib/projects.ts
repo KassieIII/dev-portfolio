@@ -10,33 +10,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: "ip-osint-bot",
-    title: "IP OSINT Bot",
-    description:
-      "Telegram bot for IP geolocation, DNS, WHOIS and subnet scanning. Built with async Python and aiohttp.",
-    tags: ["Python", "Telegram", "OSINT", "Async"],
-    github: "https://github.com/KassieIII/ip-osint-bot",
-    featured: true,
-  },
-  {
-    slug: "taskflow-api",
-    title: "TaskFlow API",
-    description:
-      "REST API for task management with JWT authentication, role-based access and PostgreSQL.",
-    tags: ["FastAPI", "PostgreSQL", "SQLAlchemy", "JWT"],
-    github: "https://github.com/KassieIII/TaskFlow-API",
-    featured: true,
-  },
-  {
-    slug: "geo-tracker",
-    title: "GeoTracker Dashboard",
-    description:
-      "Real-time geolocation tracking dashboard with interactive Leaflet map and WebSocket updates.",
-    tags: ["React", "TypeScript", "Leaflet", "WebSocket"],
-    github: "https://github.com/KassieIII/GeoTracker",
-    featured: true,
-  },
-  {
     slug: "rag-docs",
     title: "rag-docs",
     description:
@@ -52,7 +25,43 @@ export const projects: Project[] = [
       "Streaming Next.js chat UI for rag-docs: POST-based SSE over fetch + ReadableStream, citations-first rendering, abortable generation and a tested parser.",
     tags: ["Next.js", "React", "TypeScript", "SSE", "RAG", "Tailwind"],
     github: "https://github.com/KassieIII/rag-chat-ui",
-    demo: "https://kassieiii.github.io/rag-chat-ui/?demo=1",
+    demo: "https://rag-chat-ui-roan.vercel.app/?demo=1",
+    featured: true,
+  },
+  {
+    slug: "geo-tracker",
+    title: "GeoTracker Dashboard",
+    description:
+      "Real-time geolocation tracking dashboard with interactive Leaflet map and WebSocket updates.",
+    tags: ["React", "TypeScript", "Leaflet", "WebSocket"],
+    github: "https://github.com/KassieIII/GeoTracker",
+    featured: true,
+  },
+  {
+    slug: "go-pingmon",
+    title: "Pingmon",
+    description:
+      "Concurrent uptime monitor in Go: worker-pool HTTP prober, JSON API, /healthz, Prometheus metrics and GHCR Docker publishing.",
+    tags: ["Go", "HTTP", "Prometheus", "GHCR", "Docker"],
+    github: "https://github.com/KassieIII/go-pingmon",
+    featured: true,
+  },
+  {
+    slug: "taskflow-api",
+    title: "TaskFlow API",
+    description:
+      "REST API for task management with JWT authentication, role-based access and PostgreSQL.",
+    tags: ["FastAPI", "PostgreSQL", "SQLAlchemy", "JWT"],
+    github: "https://github.com/KassieIII/TaskFlow-API",
+    featured: true,
+  },
+  {
+    slug: "ip-osint-bot",
+    title: "IP OSINT Bot",
+    description:
+      "Telegram bot for IP geolocation, DNS, WHOIS and subnet scanning. Built with async Python and aiohttp.",
+    tags: ["Python", "Telegram", "OSINT", "Async"],
+    github: "https://github.com/KassieIII/ip-osint-bot",
     featured: true,
   },
   {
@@ -70,15 +79,6 @@ export const projects: Project[] = [
       "Offline-first Markdown note app built with Vue 3, Pinia and IndexedDB. Live preview with sanitised HTML.",
     tags: ["Vue 3", "Pinia", "TypeScript", "IndexedDB"],
     github: "https://github.com/KassieIII/vue-notes",
-    featured: true,
-  },
-  {
-    slug: "go-pingmon",
-    title: "Pingmon",
-    description:
-      "Concurrent uptime monitor in Go: worker-pool HTTP prober with CLI one-shot mode and a JSON API. Pure stdlib, distroless ~3 MB image.",
-    tags: ["Go", "HTTP", "Concurrency", "Docker"],
-    github: "https://github.com/KassieIII/go-pingmon",
     featured: true,
   },
   {

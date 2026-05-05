@@ -1,8 +1,8 @@
 # 🌐 Developer Portfolio
 
-A clean, fast personal portfolio website built with Next.js 14 (App Router), TypeScript, and Tailwind CSS. Features dark mode, smooth animations, and SEO optimization.
+A clean, fast personal portfolio website for a full-stack / AI product engineer. Built with Next.js 14 (App Router), TypeScript, and Tailwind CSS.
 
-[![Live demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://dev-portfolio-sigma-sepia.vercel.app)
+[![Live demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://dev-portfolio-kassie-iii.vercel.app)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3-38bdf8)
@@ -15,7 +15,7 @@ A clean, fast personal portfolio website built with Next.js 14 (App Router), Typ
 - **Responsive** — Mobile, tablet, desktop
 - **SEO** — Metadata, Open Graph, sitemap
 - **Projects Showcase** — MDX-friendly project cards
-- **Contact Form** — Server actions with validation
+- **Recruiter-friendly CTAs** — Resume, GitHub, LinkedIn, and direct email
 - **Type-safe** — Strict TypeScript throughout
 
 ## Tech Stack

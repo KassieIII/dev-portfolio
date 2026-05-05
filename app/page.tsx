@@ -17,22 +17,22 @@ export default function HomePage() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          Open to remote backend / AI engineering roles
+          Open to remote full-stack / AI product engineering roles
         </div>
 
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
           Hey, I'm <span className="text-accent">Kassym</span>.
         </h1>
         <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl">
-          Backend / full-stack engineer based in Astana. I ship typed APIs and SPAs in{" "}
+          Full-stack engineer based in Astana. I ship typed product slices in{" "}
           <span className="text-accent">Python</span>,{" "}
           <span className="text-accent">Go</span> and{" "}
-          <span className="text-accent">TypeScript</span> — from concurrent
-          uptime monitors and async REST services to{" "}
+          <span className="text-accent">TypeScript</span> — from Next.js
+          interfaces and real-time dashboards to{" "}
           <span className="text-accent">production-shaped RAG</span> with
-          pgvector + local LLMs and React / Vue / Next.js interfaces. Currently
-          at Seven Hills, previously at the Ministry of Internal Affairs of
-          Kazakhstan.
+          pgvector, FastAPI backends, observable Go services and local LLMs.
+          Currently at Seven Hills, previously at the Ministry of Internal
+          Affairs of Kazakhstan.
         </p>
 
         <div className="flex flex-wrap gap-3 pt-2">
@@ -51,7 +51,7 @@ export default function HomePage() {
             <FileText size={16} /> Resume
           </a>
           <a
-            href="mailto:honormorethangold@gmail.com?subject=Hiring%20%E2%80%94%20remote%20backend%20%2F%20AI%20role"
+            href="mailto:honormorethangold@gmail.com?subject=Hiring%20%E2%80%94%20remote%20full-stack%20%2F%20AI%20product%20role"
             className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-300 dark:border-zinc-700 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
             <Mail size={16} /> Hire me

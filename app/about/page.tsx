@@ -10,8 +10,9 @@ export default function AboutPage() {
       <div className="prose dark:prose-invert max-w-none space-y-4 text-zinc-700 dark:text-zinc-300">
         <p>
           I'm a full-stack engineer based in Astana, Kazakhstan with 4+ years
-          of commercial experience. My work spans government internal platforms,
-          intelligence tools, and AI-integrated products.
+          of commercial experience. My work spans production UIs, typed APIs,
+          government internal platforms, real-time geolocation, and
+          AI-integrated products.
         </p>
 
         <p>
@@ -19,8 +20,8 @@ export default function AboutPage() {
           <strong> TypeScript</strong>. I like systems that are small,
           observable, and boring in production: typed APIs, focused tests,
           sane CI, and Docker images that don&apos;t pull half the internet.
-          My current go-to stack is FastAPI + Next.js + PostgreSQL, with Go
-          for anything that needs raw concurrency.
+          My current go-to stack is Next.js + FastAPI + PostgreSQL, with Go
+          for observability, concurrency, and small infrastructure tools.
         </p>
 
         <h2 className="text-xl font-semibold pt-4">Background</h2>
@@ -36,7 +37,7 @@ export default function AboutPage() {
         <h2 className="text-xl font-semibold pt-4">Currently</h2>
         <p>
           Building real-time geolocation and AI tools at Seven Hills LLP. Open
-          to remote part-time and contract opportunities.
+          to remote full-stack, AI product, and backend-heavy product roles.
         </p>
       </div>
     </div>

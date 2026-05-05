@@ -4,13 +4,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Kassym Yermakhanbet — Full-Stack Developer",
+  title: "Kassym Yermakhanbet — Full-Stack / AI Product Engineer",
   description:
-    "Full-stack developer building OSINT tools, geolocation systems and AI-integrated platforms.",
+    "Full-stack engineer building typed products across Next.js, FastAPI, Go, PostgreSQL and AI/RAG systems.",
   openGraph: {
-    title: "Kassym Yermakhanbet — Full-Stack Developer",
+    title: "Kassym Yermakhanbet — Full-Stack / AI Product Engineer",
     description:
-      "Full-stack developer building OSINT tools, geolocation systems and AI-integrated platforms.",
+      "Full-stack engineer building typed products across Next.js, FastAPI, Go, PostgreSQL and AI/RAG systems.",
     type: "website",
   },
 };

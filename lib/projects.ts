@@ -52,6 +52,7 @@ export const projects: Project[] = [
       "Streaming Next.js chat UI for rag-docs: POST-based SSE over fetch + ReadableStream, citations-first rendering, abortable generation and a tested parser.",
     tags: ["Next.js", "React", "TypeScript", "SSE", "RAG", "Tailwind"],
     github: "https://github.com/KassieIII/rag-chat-ui",
+    demo: "https://kassieiii.github.io/rag-chat-ui/?demo=1",
     featured: true,
   },
   {

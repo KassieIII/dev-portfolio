@@ -9,3 +9,5 @@ dist
 
 # build cache
 tsconfig.tsbuildinfo
+.vercel
+.env*.local

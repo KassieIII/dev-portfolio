@@ -46,6 +46,15 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "rag-chat-ui",
+    title: "rag-chat-ui",
+    description:
+      "Streaming Next.js chat UI for rag-docs: POST-based SSE over fetch + ReadableStream, citations-first rendering, abortable generation and a tested parser.",
+    tags: ["Next.js", "React", "TypeScript", "SSE", "RAG", "Tailwind"],
+    github: "https://github.com/KassieIII/rag-chat-ui",
+    featured: true,
+  },
+  {
     slug: "url-shortener",
     title: "URL Shortener",
     description:

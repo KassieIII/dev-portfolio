@@ -2,7 +2,7 @@
 
 A clean, fast personal portfolio website for a full-stack / AI product engineer. Built with Next.js 14 (App Router), TypeScript, and Tailwind CSS.
 
-[![Live demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://dev-portfolio-kassie-iii.vercel.app)
+[![Live demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://dev-portfolio-sigma-sepia.vercel.app)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3-38bdf8)

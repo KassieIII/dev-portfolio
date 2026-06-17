@@ -16,6 +16,25 @@ export const projects: Project[] = [
       "Ask-your-docs RAG service: ingest Markdown/PDF, retrieve with pgvector HNSW, answer with a local Ollama LLM, every claim cited as [chunk:N]. FastAPI + SQLAlchemy async + bge-small embeddings, with a 25-question eval harness.",
     tags: ["FastAPI", "pgvector", "Ollama", "RAG", "Embeddings", "Docker"],
     github: "https://github.com/KassieIII/rag-docs",
+    demo: "https://huggingface.co/spaces/KassieIII/rag-docs-demo",
+    featured: true,
+  },
+  {
+    slug: "llm-gateway",
+    title: "llm-gateway",
+    description:
+      "OpenAI-compatible gateway in front of LLM providers: API-key auth, per-key token-bucket rate limiting (atomic in Redis via Lua), response caching, token/cost accounting, provider fallback, SSE streaming and Prometheus metrics. Typed FastAPI, mypy --strict, multi-stage Docker, image published to GHCR.",
+    tags: ["FastAPI", "Redis", "Rate limiting", "LLM", "Prometheus", "Docker"],
+    github: "https://github.com/KassieIII/llm-gateway",
+    featured: true,
+  },
+  {
+    slug: "aws-serverless-ingest",
+    title: "aws-serverless-ingest",
+    description:
+      "Event-driven ingest pipeline on AWS (S3 → SQS → Lambda → DynamoDB) defined end-to-end in Terraform, with a dead-letter queue, least-privilege IAM and SQS partial-batch retries. Tested with moto — no AWS account or network needed — and CI runs terraform validate.",
+    tags: ["AWS", "Terraform", "Lambda", "SQS", "DynamoDB", "moto"],
+    github: "https://github.com/KassieIII/aws-serverless-ingest",
     featured: true,
   },
   {

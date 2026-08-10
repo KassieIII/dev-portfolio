@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight, Code2 } from "lucide-react";
 import type { Project } from "@/lib/projects";
 
@@ -9,12 +10,14 @@ export default function ProjectCard({ project }: { project: Project }) {
         <span className="project-eyebrow">{project.eyebrow}</span>
       </div>
 
-      <div className="project-display" aria-hidden="true">
+      <div className={`project-display ${project.preview ? "has-preview" : ""}`}>
+        {project.preview && <Image src={project.preview} alt={`${project.title} product preview`} fill sizes="(max-width: 680px) 100vw, 50vw" />}
         <span className="project-signal" />
         <span className="project-grid-label">SYS/{project.index}</span>
-        <strong>{project.title.split(" ").map((word, index) => (
+        {!project.preview && <strong>{project.title.split(" ").map((word, index) => (
           <span key={`${word}-${index}`}>{word}</span>
-        ))}</strong>
+        ))}</strong>}
+        {project.preview && <span className="project-preview-label">LIVE PRODUCT PREVIEW</span>}
       </div>
 
       <div className="project-card-body">

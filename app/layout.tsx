@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SystemLayer from "@/components/SystemLayer";
 
 const title = "Kassym Yermakhanbet — Full-Stack & AI Product Engineer";
 const description = "Product engineer in Astana building SaaS, internal platforms, AI/RAG systems and production-ready web products end to end.";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <div className="noise" aria-hidden="true" />
+        <SystemLayer />
         <Navbar />
         {children}
         <Footer />

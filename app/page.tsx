@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Check, Code2, Contact, Mail } from "lucide-react";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectConsole from "@/components/ProjectConsole";
 import { projects } from "@/lib/projects";
 
 const capabilities = [
@@ -98,9 +98,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="project-grid">
-            {featured.map((project) => <ProjectCard key={project.slug} project={project} />)}
-          </div>
+          <ProjectConsole projects={featured} />
 
           <div className="section-link-row">
             <Link href="/projects">View the complete project index <ArrowUpRight size={17} /></Link>

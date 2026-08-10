@@ -8,6 +8,7 @@ export interface Project {
   tags: string[];
   github?: string;
   demo?: string;
+  preview?: string;
   featured?: boolean;
   tone: "amber" | "mint" | "blue" | "coral";
 }
@@ -23,6 +24,7 @@ export const projects: Project[] = [
     outcome: "30+ widgets · 26-language content layer · CRM, chat, analytics and audit log",
     tags: ["React", "TypeScript", "Go", "PostgreSQL", "Docker"],
     demo: "https://forensic.7hills.kz/",
+    preview: "/project-previews/seven-hills.png",
     featured: true,
     tone: "amber",
   },
@@ -36,6 +38,7 @@ export const projects: Project[] = [
     outcome: "From brief to signed proposal and payment handoff in one product",
     tags: ["React", "TypeScript", "Supabase", "AI", "Paddle"],
     demo: "https://getproposalflow.com/",
+    preview: "/project-previews/proposalflow.png",
     featured: true,
     tone: "mint",
   },
@@ -49,6 +52,7 @@ export const projects: Project[] = [
     outcome: "3 locales · price calculator · project video and photo library · technical SEO",
     tags: ["Next.js", "TypeScript", "SEO", "UX", "Media"],
     demo: "https://olzhasstroy.kz/",
+    preview: "/project-previews/olzhas-stroy.png",
     featured: true,
     tone: "coral",
   },
@@ -63,6 +67,7 @@ export const projects: Project[] = [
     tags: ["FastAPI", "pgvector", "Ollama", "RAG", "Docker"],
     github: "https://github.com/KassieIII/rag-docs",
     demo: "https://huggingface.co/spaces/KassieIII/rag-docs-demo",
+    preview: "/project-previews/rag-docs.png",
     featured: true,
     tone: "blue",
   },

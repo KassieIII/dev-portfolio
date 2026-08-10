@@ -71,8 +71,8 @@ export default function HomePage() {
             internal platforms and AI products that teams can actually operate.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#work">Explore selected work <ArrowDown size={17} /></a>
-            <a className="button button-ghost" href="mailto:honormorethangold@gmail.com?subject=Product%20inquiry">Discuss a product <ArrowUpRight size={17} /></a>
+            <a className="button button-primary" href="#work" data-cursor="EXPLORE">Explore selected work <ArrowDown size={17} /></a>
+            <a className="button button-ghost" href="mailto:honormorethangold@gmail.com?subject=Product%20inquiry" data-cursor="EMAIL">Discuss a product <ArrowUpRight size={17} /></a>
           </div>
         </div>
 

@@ -31,12 +31,12 @@ export default function ProjectCard({ project }: { project: Project }) {
 
       <div className="project-links">
         {project.demo && (
-          <a href={project.demo} target="_blank" rel="noreferrer">
+          <a href={project.demo} target="_blank" rel="noreferrer" data-cursor="OPEN">
             Live product <ArrowUpRight size={16} />
           </a>
         )}
         {project.github && (
-          <a href={project.github} target="_blank" rel="noreferrer">
+          <a href={project.github} target="_blank" rel="noreferrer" data-cursor="CODE">
             Source <Code2 size={15} />
           </a>
         )}

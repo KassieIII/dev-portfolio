@@ -31,6 +31,7 @@ export default function ProjectConsole({ projects }: { projects: Project[] }) {
               onMouseEnter={() => setActiveSlug(project.slug)}
               onFocus={() => setActiveSlug(project.slug)}
               onClick={() => setActiveSlug(project.slug)}
+              data-cursor="SELECT"
             >
               <span>[{project.index}]</span>
               <strong>{project.title}</strong>
@@ -61,7 +62,7 @@ export default function ProjectConsole({ projects }: { projects: Project[] }) {
               <p>{active.outcome}</p>
             </div>
             {active.demo && (
-              <a href={active.demo} target="_blank" rel="noreferrer" data-cursor>
+              <a href={active.demo} target="_blank" rel="noreferrer" data-cursor="OPEN">
                 Open live <ExternalLink size={17} />
               </a>
             )}

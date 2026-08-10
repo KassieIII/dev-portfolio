@@ -88,6 +88,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div className="system-ticker" aria-hidden="true">
+        <div>
+          <span>PRODUCT ENGINEERING</span><i>◆</i><span>APPLIED AI</span><i>◆</i><span>BACKEND SYSTEMS</span><i>◆</i><span>DESIGN TO DEPLOYMENT</span><i>◆</i>
+          <span>PRODUCT ENGINEERING</span><i>◆</i><span>APPLIED AI</span><i>◆</i><span>BACKEND SYSTEMS</span><i>◆</i><span>DESIGN TO DEPLOYMENT</span><i>◆</i>
+        </div>
+      </div>
+
       <main>
         <section className="section work-section" id="work">
           <div className="section-intro">

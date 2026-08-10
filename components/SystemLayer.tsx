@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 export default function SystemLayer() {
   const [booting, setBooting] = useState(true);
-  const [cursor, setCursor] = useState({ x: -50, y: -50, active: false, visible: false });
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -17,19 +16,11 @@ export default function SystemLayer() {
       document.querySelector(".site-header")?.classList.toggle("is-scrolled", window.scrollY > 32);
     };
 
-    const onPointerMove = (event: PointerEvent) => {
-      const target = event.target as HTMLElement | null;
-      const active = Boolean(target?.closest("a, button, [data-cursor]"));
-      setCursor({ x: event.clientX, y: event.clientY, active, visible: true });
-    };
-
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
     return () => {
       window.clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("pointermove", onPointerMove);
     };
   }, []);
 
@@ -49,11 +40,11 @@ export default function SystemLayer() {
       </div>
 
       <div className="scroll-progress" aria-hidden="true"><i /></div>
-      <div
-        className={`system-cursor ${cursor.active ? "is-active" : ""} ${cursor.visible ? "is-visible" : ""}`}
-        style={{ transform: `translate3d(${cursor.x}px, ${cursor.y}px, 0)` }}
-        aria-hidden="true"
-      ><span /></div>
+      <div className="screen-frame" aria-hidden="true">
+        <i /><i /><i /><i />
+        <span>KY_OS / SIGNAL STABLE</span>
+        <b>2026.08 / ASTANA NODE</b>
+      </div>
     </>
   );
 }

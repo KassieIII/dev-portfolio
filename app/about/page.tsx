@@ -21,7 +21,7 @@ export default function AboutPage() {
           <dl>
             <div><dt>Base</dt><dd>Astana, Kazakhstan</dd></div>
             <div><dt>Availability</dt><dd>Remote worldwide</dd></div>
-            <div><dt>Languages</dt><dd>English · Kazakh · Russian</dd></div>
+            <div><dt>Languages</dt><dd>English · German · Kazakh · Russian</dd></div>
             <div><dt>Core stack</dt><dd>TypeScript · Python · Go · PostgreSQL</dd></div>
             <div><dt>Current focus</dt><dd>SaaS · AI products · operational systems</dd></div>
           </dl>

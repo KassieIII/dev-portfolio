@@ -1,45 +1,72 @@
-export const metadata = {
-  title: "About — Kassym Yermakhanbet",
+import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About Kassym Yermakhanbet — Full-Stack & AI Product Engineer",
+  description: "Background, experience and working approach of product engineer Kassym Yermakhanbet in Astana, Kazakhstan.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16 space-y-6">
-      <h1 className="text-3xl font-bold">About</h1>
+    <>
+      <section className="inner-hero">
+        <div className="section-label"><span>[PROFILE]</span> Kassym Yermakhanbet</div>
+        <h1>Builder by<br />default.</h1>
+        <p>I connect product judgment, interaction design and production engineering so useful ideas make it all the way to users.</p>
+      </section>
 
-      <div className="prose dark:prose-invert max-w-none space-y-4 text-zinc-700 dark:text-zinc-300">
-        <p>
-          I'm a full-stack engineer based in Astana, Kazakhstan with 4+ years
-          of commercial experience. My work spans production UIs, typed APIs,
-          government internal platforms, real-time geolocation, and
-          AI-integrated products.
-        </p>
+      <main className="section profile-grid">
+        <aside className="profile-aside">
+          <dl>
+            <div><dt>Base</dt><dd>Astana, Kazakhstan</dd></div>
+            <div><dt>Availability</dt><dd>Remote worldwide</dd></div>
+            <div><dt>Languages</dt><dd>English · Kazakh · Russian</dd></div>
+            <div><dt>Core stack</dt><dd>TypeScript · Python · Go · PostgreSQL</dd></div>
+            <div><dt>Current focus</dt><dd>SaaS · AI products · operational systems</dd></div>
+          </dl>
+        </aside>
 
-        <p>
-          Day-to-day I write <strong>Python</strong>, <strong>Go</strong> and
-          <strong> TypeScript</strong>. I like systems that are small,
-          observable, and boring in production: typed APIs, focused tests,
-          sane CI, and Docker images that don&apos;t pull half the internet.
-          My current go-to stack is Next.js + FastAPI + PostgreSQL, with Go
-          for observability, concurrency, and small infrastructure tools.
-        </p>
+        <div className="profile-copy">
+          <h2>I like difficult workflows and simple interfaces.</h2>
+          <p>
+            I&apos;m a full-stack engineer with more than four years of commercial
+            experience across government platforms, digital forensics products,
+            real-time operations and independent SaaS. I work from the business
+            constraint inward: understand the decision, prototype the interaction,
+            engineer the system and verify it in production.
+          </p>
+          <p>
+            Day to day, that means Next.js and React on the interface; Python,
+            FastAPI and Go behind it; PostgreSQL, Redis and Docker underneath;
+            and measured AI/RAG where it creates real leverage. I care about typed
+            boundaries, useful observability, clear failure behavior and products
+            another person can operate without me standing beside them.
+          </p>
 
-        <h2 className="text-xl font-semibold pt-4">Background</h2>
-        <p>
-          I started in nuclear physics at ENU, then transferred into computer
-          engineering at IITU. Later I added a law degree from TarGU — a
-          combination that turned out useful for working with regulated systems.
-        </p>
+          <h3>Experience</h3>
+          <div className="timeline">
+            <article>
+              <span>2025 — present</span>
+              <div><h4>Software Development Specialist · Seven Hills LLP</h4><p>Product systems for digital forensics, real-time geolocation, OSINT workflows, applied AI and a self-hosted visual CMS/CRM platform.</p></div>
+            </article>
+            <article>
+              <span>2022 — 2024</span>
+              <div><h4>Software Developer · Ministry of Internal Affairs</h4><p>Internal workflow software, role-based systems and modernization of regulated operational platforms.</p></div>
+            </article>
+          </div>
 
-        <h2 className="text-xl font-semibold pt-4">Languages</h2>
-        <p>English (C1), Russian (native), Kazakh (native), German (basic).</p>
+          <h3>Education</h3>
+          <div className="timeline">
+            <article><span>2022</span><div><h4>BSc · Computer Engineering &amp; Software</h4><p>International Information Technology University, Almaty.</p></div></article>
+            <article><span>2024</span><div><h4>Bachelor of Laws · Jurisprudence</h4><p>Taraz Regional University — useful context for regulated systems and high-accountability workflows.</p></div></article>
+          </div>
 
-        <h2 className="text-xl font-semibold pt-4">Currently</h2>
-        <p>
-          Building real-time geolocation and AI tools at Seven Hills LLP. Open
-          to remote full-stack, AI product, and backend-heavy product roles.
-        </p>
-      </div>
-    </div>
+          <h3>Contact</h3>
+          <p>If you have a valuable workflow trapped in spreadsheets, manual handoffs or disconnected tools, I&apos;d like to hear about it.</p>
+          <a className="button button-primary" href="mailto:honormorethangold@gmail.com?subject=Product%20inquiry">Start a conversation <ArrowUpRight size={17} /></a>
+        </div>
+      </main>
+    </>
   );
 }

@@ -1,111 +1,121 @@
 export interface Project {
   slug: string;
+  index: string;
   title: string;
+  eyebrow: string;
   description: string;
+  outcome: string;
   tags: string[];
   github?: string;
   demo?: string;
   featured?: boolean;
+  tone: "amber" | "mint" | "blue" | "coral";
 }
 
 export const projects: Project[] = [
   {
-    slug: "rag-docs",
-    title: "rag-docs",
+    slug: "seven-hills-builder",
+    index: "01",
+    title: "Seven Hills Visual CMS",
+    eyebrow: "Product system / 2026",
     description:
-      "Ask-your-docs RAG service: ingest Markdown/PDF, retrieve with pgvector HNSW, answer with a local Ollama LLM, every claim cited as [chunk:N]. FastAPI + SQLAlchemy async + bge-small embeddings, with a 25-question eval harness.",
-    tags: ["FastAPI", "pgvector", "Ollama", "RAG", "Embeddings", "Docker"],
+      "A self-hosted visual website builder with an integrated CRM and CMS. Editors assemble pages on-canvas, manage leads, publish content and operate the site without touching code — including in closed networks.",
+    outcome: "30+ widgets · 26-language content layer · CRM, chat, analytics and audit log",
+    tags: ["React", "TypeScript", "Go", "PostgreSQL", "Docker"],
+    demo: "https://forensic.7hills.kz/",
+    featured: true,
+    tone: "amber",
+  },
+  {
+    slug: "proposalflow",
+    index: "02",
+    title: "ProposalFlow",
+    eyebrow: "SaaS product / 2026",
+    description:
+      "An end-to-end workspace for freelancers and agencies: AI-assisted proposals, branded client links, browser e-signatures, invoices and a client portal in one coherent workflow.",
+    outcome: "From brief to signed proposal and payment handoff in one product",
+    tags: ["React", "TypeScript", "Supabase", "AI", "Paddle"],
+    demo: "https://getproposalflow.com/",
+    featured: true,
+    tone: "mint",
+  },
+  {
+    slug: "olzhas-stroy",
+    index: "03",
+    title: "Olzhas Stroy",
+    eyebrow: "Client platform / 2026",
+    description:
+      "A multilingual lead-generation site for an Astana renovation company, built around real project media, transparent service packages and an interactive cost calculator.",
+    outcome: "3 locales · price calculator · project video and photo library · technical SEO",
+    tags: ["Next.js", "TypeScript", "SEO", "UX", "Media"],
+    demo: "https://olzhasstroy.kz/",
+    featured: true,
+    tone: "coral",
+  },
+  {
+    slug: "rag-docs",
+    index: "04",
+    title: "Citation-grounded RAG",
+    eyebrow: "AI infrastructure / 2025",
+    description:
+      "A production-shaped document intelligence service: PDF and Markdown ingestion, pgvector retrieval, optional reranking, local LLM answers and source citations on every supported claim.",
+    outcome: "25-question evaluation harness · recall@5 1.00 · reproducible quality checks",
+    tags: ["FastAPI", "pgvector", "Ollama", "RAG", "Docker"],
     github: "https://github.com/KassieIII/rag-docs",
     demo: "https://huggingface.co/spaces/KassieIII/rag-docs-demo",
     featured: true,
+    tone: "blue",
   },
   {
     slug: "llm-gateway",
-    title: "llm-gateway",
+    index: "05",
+    title: "LLM Gateway",
+    eyebrow: "Backend infrastructure / 2026",
     description:
-      "OpenAI-compatible gateway in front of LLM providers: API-key auth, per-key token-bucket rate limiting (atomic in Redis via Lua), response caching, token/cost accounting, provider fallback, SSE streaming and Prometheus metrics. Typed FastAPI, mypy --strict, multi-stage Docker, image published to GHCR.",
-    tags: ["FastAPI", "Redis", "Rate limiting", "LLM", "Prometheus", "Docker"],
+      "An OpenAI-compatible gateway with API-key authentication, atomic Redis rate limiting, response caching, provider fallback, usage accounting, SSE streaming and Prometheus metrics.",
+    outcome: "One observable control layer across multiple model providers",
+    tags: ["FastAPI", "Redis", "Prometheus", "SSE", "Docker"],
     github: "https://github.com/KassieIII/llm-gateway",
-    featured: true,
+    featured: false,
+    tone: "mint",
   },
   {
     slug: "aws-serverless-ingest",
-    title: "aws-serverless-ingest",
+    index: "06",
+    title: "AWS Event Ingest",
+    eyebrow: "Cloud pipeline / 2026",
     description:
-      "Event-driven ingest pipeline on AWS (S3 → SQS → Lambda → DynamoDB) defined end-to-end in Terraform, with a dead-letter queue, least-privilege IAM and SQS partial-batch retries. Tested with moto — no AWS account or network needed — and CI runs terraform validate.",
-    tags: ["AWS", "Terraform", "Lambda", "SQS", "DynamoDB", "moto"],
+      "An event-driven S3 → SQS → Lambda → DynamoDB ingest pipeline defined in Terraform, with partial-batch retries, a dead-letter queue and least-privilege IAM.",
+    outcome: "Infrastructure and failure paths are fully testable without an AWS account",
+    tags: ["AWS", "Terraform", "Lambda", "SQS", "DynamoDB"],
     github: "https://github.com/KassieIII/aws-serverless-ingest",
-    featured: true,
+    featured: false,
+    tone: "amber",
   },
   {
-    slug: "rag-chat-ui",
-    title: "rag-chat-ui",
+    slug: "geotracker",
+    index: "07",
+    title: "GeoTracker",
+    eyebrow: "Operational platform / 2025",
     description:
-      "Streaming Next.js chat UI for rag-docs: POST-based SSE over fetch + ReadableStream, citations-first rendering, abortable generation and a tested parser.",
-    tags: ["Next.js", "React", "TypeScript", "SSE", "RAG", "Tailwind"],
-    github: "https://github.com/KassieIII/rag-chat-ui",
-    demo: "https://rag-chat-ui-roan.vercel.app/?demo=1",
-    featured: true,
-  },
-  {
-    slug: "geo-tracker",
-    title: "GeoTracker Dashboard",
-    description:
-      "Real-time geolocation tracking dashboard with interactive Leaflet map and WebSocket updates.",
-    tags: ["React", "TypeScript", "Leaflet", "WebSocket"],
+      "A real-time geolocation dashboard that turns live device events into an operator-friendly map and monitoring workflow.",
+    outcome: "Live WebSocket updates · interactive mapping · operational visibility",
+    tags: ["React", "TypeScript", "WebSocket", "Leaflet"],
     github: "https://github.com/KassieIII/GeoTracker",
-    featured: true,
+    featured: false,
+    tone: "coral",
   },
   {
     slug: "go-pingmon",
+    index: "08",
     title: "Pingmon",
+    eyebrow: "Observability tool / 2026",
     description:
-      "Concurrent uptime monitor in Go: worker-pool HTTP prober, JSON API, /healthz, Prometheus metrics and GHCR Docker publishing.",
-    tags: ["Go", "HTTP", "Prometheus", "GHCR", "Docker"],
+      "A concurrent uptime monitor in Go with a worker-pool HTTP prober, JSON API, health endpoint, Prometheus metrics and automated container publishing.",
+    outcome: "Small, observable and production-ready monitoring service",
+    tags: ["Go", "Prometheus", "Docker", "GHCR"],
     github: "https://github.com/KassieIII/go-pingmon",
-    featured: true,
-  },
-  {
-    slug: "taskflow-api",
-    title: "TaskFlow API",
-    description:
-      "REST API for task management with JWT authentication, role-based access and PostgreSQL.",
-    tags: ["FastAPI", "PostgreSQL", "SQLAlchemy", "JWT"],
-    github: "https://github.com/KassieIII/TaskFlow-API",
-    featured: true,
-  },
-  {
-    slug: "ip-osint-bot",
-    title: "IP OSINT Bot",
-    description:
-      "Telegram bot for IP geolocation, DNS, WHOIS and subnet scanning. Built with async Python and aiohttp.",
-    tags: ["Python", "Telegram", "OSINT", "Async"],
-    github: "https://github.com/KassieIII/ip-osint-bot",
-    featured: true,
-  },
-  {
-    slug: "url-shortener",
-    title: "URL Shortener",
-    description:
-      "Tiny production-style URL shortener with Redis storage, click analytics, rate limiting and Docker deployment.",
-    tags: ["Node.js", "Express", "TypeScript", "Redis", "Docker"],
-    github: "https://github.com/KassieIII/url-shortener",
-  },
-  {
-    slug: "vue-notes",
-    title: "Vue Notes",
-    description:
-      "Offline-first Markdown note app built with Vue 3, Pinia and IndexedDB. Live preview with sanitised HTML.",
-    tags: ["Vue 3", "Pinia", "TypeScript", "IndexedDB"],
-    github: "https://github.com/KassieIII/vue-notes",
-    featured: true,
-  },
-  {
-    slug: "dev-portfolio",
-    title: "Developer Portfolio",
-    description:
-      "This site. Built with Next.js 14 App Router, TypeScript, Tailwind CSS and dark mode.",
-    tags: ["Next.js", "TypeScript", "Tailwind"],
-    github: "https://github.com/KassieIII/dev-portfolio",
+    featured: false,
+    tone: "blue",
   },
 ];

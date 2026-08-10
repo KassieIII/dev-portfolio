@@ -1,50 +1,42 @@
-import { Github, ExternalLink } from "lucide-react";
+import { ArrowUpRight, Code2 } from "lucide-react";
 import type { Project } from "@/lib/projects";
-import SkillBadge from "./SkillBadge";
 
-interface Props {
-  project: Project;
-}
-
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 hover:border-accent transition-colors flex flex-col">
-      <div className="flex items-start justify-between mb-2">
-        <h3 className="font-semibold text-lg">{project.title}</h3>
-        <div className="flex gap-2 text-zinc-500">
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.title} GitHub`}
-              className="hover:text-accent transition-colors"
-            >
-              <Github size={16} />
-            </a>
-          )}
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.title} demo`}
-              className="hover:text-accent transition-colors"
-            >
-              <ExternalLink size={16} />
-            </a>
-          )}
+    <article className={`project-card tone-${project.tone}`}>
+      <div className="project-card-head">
+        <span className="project-index">[{project.index}]</span>
+        <span className="project-eyebrow">{project.eyebrow}</span>
+      </div>
+
+      <div className="project-display" aria-hidden="true">
+        <span className="project-signal" />
+        <span className="project-grid-label">SYS/{project.index}</span>
+        <strong>{project.title.split(" ").map((word, index) => (
+          <span key={`${word}-${index}`}>{word}</span>
+        ))}</strong>
+      </div>
+
+      <div className="project-card-body">
+        <h3>{project.title}</h3>
+        <p>{project.description}</p>
+        <div className="project-outcome"><span>Output</span>{project.outcome}</div>
+        <div className="tag-row">
+          {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
         </div>
       </div>
 
-      <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed flex-1">
-        {project.description}
-      </p>
-
-      <div className="flex flex-wrap gap-1.5 mt-4">
-        {project.tags.map((tag) => (
-          <SkillBadge key={tag} name={tag} small />
-        ))}
+      <div className="project-links">
+        {project.demo && (
+          <a href={project.demo} target="_blank" rel="noreferrer">
+            Live product <ArrowUpRight size={16} />
+          </a>
+        )}
+        {project.github && (
+          <a href={project.github} target="_blank" rel="noreferrer">
+            Source <Code2 size={15} />
+          </a>
+        )}
       </div>
     </article>
   );

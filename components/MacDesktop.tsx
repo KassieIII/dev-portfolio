@@ -4,21 +4,25 @@ import Image from "next/image";
 import {
   BatteryFull,
   BriefcaseBusiness,
-  ChevronRight,
+  CloudSun,
   Code2,
   Command,
+  Crown,
   Cpu,
   Download,
   ExternalLink,
   FileText,
   Folder,
   Globe2,
+  Images,
   Mail,
   MapPin,
   Maximize2,
   Minimize2,
   Minus,
   Moon,
+  Music,
+  Paintbrush,
   SlidersHorizontal,
   Sparkles,
   Sun,
@@ -28,10 +32,14 @@ import {
   Wifi,
   X,
 } from "lucide-react";
-import { FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import { projects } from "@/lib/projects";
+import ChessApp from "@/components/apps/ChessApp";
+import MusicApp from "@/components/apps/MusicApp";
+import PaintApp from "@/components/apps/PaintApp";
+import PhotosApp from "@/components/apps/PhotosApp";
 
-type AppId = "work" | "about" | "resume" | "terminal" | "stack" | "contact";
+type AppId = "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music";
 type ThemeId = "sky" | "midnight" | "sand";
 
 type DesktopWindow = {
@@ -40,6 +48,7 @@ type DesktopWindow = {
   open: boolean;
   minimized: boolean;
   maximized: boolean;
+  minimizing: boolean;
   z: number;
   x: number;
   y: number;
@@ -52,16 +61,26 @@ const appMeta: Record<AppId, { title: string; label: string; icon: typeof Folder
   terminal: { title: "kassym@portfolio — zsh", label: "Terminal", icon: TerminalSquare, tone: "dark" },
   stack: { title: "System Profiler", label: "Tech Stack", icon: Cpu, tone: "orange" },
   contact: { title: "New Message", label: "Contact", icon: Mail, tone: "green" },
+  paint: { title: "KY Paint", label: "Paint", icon: Paintbrush, tone: "pink" },
+  photos: { title: "Photos", label: "Photos", icon: Images, tone: "violet" },
+  chess: { title: "Chess", label: "Chess", icon: Crown, tone: "chess" },
+  music: { title: "Music — KY Mix", label: "Music", icon: Music, tone: "music" },
 };
 
 const initialWindows: DesktopWindow[] = [
-  { id: "work", title: appMeta.work.title, open: false, minimized: false, maximized: false, z: 2, x: 122, y: 104 },
-  { id: "about", title: appMeta.about.title, open: false, minimized: false, maximized: false, z: 3, x: 250, y: 126 },
-  { id: "resume", title: appMeta.resume.title, open: false, minimized: false, maximized: false, z: 4, x: 310, y: 90 },
-  { id: "terminal", title: appMeta.terminal.title, open: false, minimized: false, maximized: false, z: 5, x: 205, y: 205 },
-  { id: "stack", title: appMeta.stack.title, open: false, minimized: false, maximized: false, z: 6, x: 375, y: 158 },
-  { id: "contact", title: appMeta.contact.title, open: false, minimized: false, maximized: false, z: 7, x: 430, y: 118 },
+  { id: "work", title: appMeta.work.title, open: false, minimized: false, maximized: false, minimizing: false, z: 2, x: 122, y: 104 },
+  { id: "about", title: appMeta.about.title, open: false, minimized: false, maximized: false, minimizing: false, z: 3, x: 250, y: 126 },
+  { id: "resume", title: appMeta.resume.title, open: false, minimized: false, maximized: false, minimizing: false, z: 4, x: 310, y: 90 },
+  { id: "terminal", title: appMeta.terminal.title, open: false, minimized: false, maximized: false, minimizing: false, z: 5, x: 205, y: 205 },
+  { id: "stack", title: appMeta.stack.title, open: false, minimized: false, maximized: false, minimizing: false, z: 6, x: 375, y: 158 },
+  { id: "contact", title: appMeta.contact.title, open: false, minimized: false, maximized: false, minimizing: false, z: 7, x: 430, y: 118 },
+  { id: "paint", title: appMeta.paint.title, open: false, minimized: false, maximized: false, minimizing: false, z: 8, x: 170, y: 95 },
+  { id: "photos", title: appMeta.photos.title, open: false, minimized: false, maximized: false, minimizing: false, z: 9, x: 290, y: 110 },
+  { id: "chess", title: appMeta.chess.title, open: false, minimized: false, maximized: false, minimizing: false, z: 10, x: 360, y: 125 },
+  { id: "music", title: appMeta.music.title, open: false, minimized: false, maximized: false, minimizing: false, z: 11, x: 400, y: 100 },
 ];
+
+const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: index < 5 ? 68 : 160, y: 74 + (index % 5) * 92 }])) as Record<AppId, { x: number; y: number }>;
 
 const stackGroups = [
   ["Interface", "TypeScript", "React", "Next.js", "Vue.js"],
@@ -101,6 +120,13 @@ export default function MacDesktop() {
     "KY-OS 1.0.26 — portfolio environment",
     "Type `help` to inspect available commands.",
   ]);
+  const [iconPositions, setIconPositions] = useState(initialIconPositions);
+  const [weather, setWeather] = useState<{ temperature: number; wind: number } | null>(null);
+  const [brightness, setBrightness] = useState(78);
+  const [volume, setVolume] = useState(48);
+  const [wifiOn, setWifiOn] = useState(true);
+  const [focusOn, setFocusOn] = useState(true);
+  const draggedIcon = useRef<AppId | null>(null);
 
   const visibleProjects = projects.slice(0, 6);
   const selectedProject = projects.find((project) => project.slug === activeProject) ?? projects[0];
@@ -111,6 +137,13 @@ export default function MacDesktop() {
     setNow(new Date());
     const timer = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=51.1694&longitude=71.4491&current=temperature_2m,wind_speed_10m&timezone=Asia%2FAlmaty")
+      .then((response) => response.json())
+      .then((data) => setWeather({ temperature: Math.round(data.current.temperature_2m), wind: Math.round(data.current.wind_speed_10m) }))
+      .catch(() => setWeather(null));
   }, []);
 
   useEffect(() => {
@@ -131,16 +164,17 @@ export default function MacDesktop() {
 
   function openWindow(id: AppId) {
     setWindows((items) => items.map((item) => item.id === id
-      ? { ...item, open: true, minimized: false, z: topZ + 1 }
+      ? { ...item, open: true, minimized: false, minimizing: false, z: topZ + 1 }
       : item));
   }
 
   function closeWindow(id: AppId) {
-    setWindows((items) => items.map((item) => item.id === id ? { ...item, open: false, minimized: false } : item));
+    setWindows((items) => items.map((item) => item.id === id ? { ...item, open: false, minimized: false, minimizing: false } : item));
   }
 
   function minimizeWindow(id: AppId) {
-    setWindows((items) => items.map((item) => item.id === id ? { ...item, minimized: true } : item));
+    setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: true } : item));
+    window.setTimeout(() => setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: false, minimized: true } : item)), 520);
   }
 
   function maximizeWindow(id: AppId) {
@@ -172,6 +206,27 @@ export default function MacDesktop() {
     node.addEventListener("pointerup", onUp);
   }
 
+  function startIconDrag(event: ReactPointerEvent<HTMLButtonElement>, id: AppId) {
+    if (window.innerWidth < 760) return;
+    draggedIcon.current = null;
+    const start = iconPositions[id];
+    const origin = { x: event.clientX, y: event.clientY };
+    let moved = false;
+    const node = event.currentTarget;
+    node.setPointerCapture(event.pointerId);
+    const onMove = (moveEvent: PointerEvent) => {
+      if (Math.abs(moveEvent.clientX - origin.x) + Math.abs(moveEvent.clientY - origin.y) > 5) { moved = true; draggedIcon.current = id; }
+      setIconPositions((positions) => ({ ...positions, [id]: { x: Math.max(50, Math.min(window.innerWidth - 120, start.x + moveEvent.clientX - origin.x)), y: Math.max(52, Math.min(window.innerHeight - 150, start.y + moveEvent.clientY - origin.y)) } }));
+    };
+    const onUp = () => {
+      node.removeEventListener("pointermove", onMove);
+      node.removeEventListener("pointerup", onUp);
+      if (moved) window.setTimeout(() => { if (draggedIcon.current === id) draggedIcon.current = null; }, 0);
+    };
+    node.addEventListener("pointermove", onMove);
+    node.addEventListener("pointerup", onUp);
+  }
+
   function runCommand(event: FormEvent) {
     event.preventDefault();
     const command = terminalInput.trim().toLowerCase();
@@ -196,7 +251,7 @@ export default function MacDesktop() {
           <div className="lock-date">{now?.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) ?? "Loading"}</div>
           <div className="lock-time">{formatClock(now)}</div>
           <div className="lock-profile">
-            <div className="lock-avatar">KY</div>
+            <div className="lock-avatar"><Image src="/profile-kassym.png" alt="Kassym Yermakhanbet" fill sizes="70px" loading="eager" /></div>
             <strong>Kassym Yermakhanbet</strong>
             <span>Full-stack &amp; AI product engineer</span>
             <small><span aria-hidden="true">↵</span> click to enter</small>
@@ -232,28 +287,26 @@ export default function MacDesktop() {
         {controlCenter && (
           <aside className="control-center" aria-label="Control Center">
             <div className="control-toggles">
-              <button className="is-on"><Wifi size={17} /><span><strong>Wi-Fi</strong><small>KY Network</small></span></button>
-              <button className="is-on"><Sparkles size={17} /><span><strong>Focus</strong><small>Building</small></span></button>
+              <button className={wifiOn ? "is-on" : ""} onClick={() => setWifiOn((value) => !value)}><Wifi size={17} /><span><strong>Wi-Fi</strong><small>{wifiOn ? "KY Network" : "Off"}</small></span></button>
+              <button className={focusOn ? "is-on" : ""} onClick={() => setFocusOn((value) => !value)}><Sparkles size={17} /><span><strong>Focus</strong><small>{focusOn ? "Building" : "Off"}</small></span></button>
             </div>
-            <div className="control-slider"><Sun size={15} /><span><i style={{ width: "78%" }} /></span></div>
-            <div className="control-slider"><Volume2 size={15} /><span><i style={{ width: "48%" }} /></span></div>
+            <label className="control-slider"><Sun size={15} /><input aria-label="Brightness" type="range" min="20" max="100" value={brightness} onChange={(event) => setBrightness(Number(event.target.value))} style={{ backgroundSize: `${brightness}% 100%` }} /></label>
+            <label className="control-slider"><Volume2 size={15} /><input aria-label="Volume" type="range" min="0" max="100" value={volume} onChange={(event) => setVolume(Number(event.target.value))} style={{ backgroundSize: `${volume}% 100%` }} /></label>
             <button className="control-theme" onClick={() => setTheme(theme === "midnight" ? "sky" : "midnight")}><Moon size={15} /> Toggle appearance</button>
           </aside>
         )}
 
-        <div className="desktop-intro">
-          <div className="eyebrow"><span className="online-dot" /> ASTANA NODE · AVAILABLE WORLDWIDE</div>
-          <h1>Complex systems.<br /><em>Clear products.</em></h1>
-          <p>I design and build SaaS, operational platforms and applied AI systems — from first workflow to production.</p>
-          <button onClick={() => openWindow("work")}>Open selected work <ChevronRight size={16} /></button>
-        </div>
+        <button className="desktop-profile-card" onClick={() => openWindow("about")} aria-label="Open Kassym profile">
+          <span className="desktop-profile-photo"><Image src="/profile-kassym.png" alt="" fill sizes="52px" loading="eager" /></span>
+          <span><strong>Kassym Yermakhanbet</strong><small>Full-stack &amp; AI product engineer</small></span>
+        </button>
 
-        <div className="desktop-icons" aria-label="Desktop applications">
+        <div className="desktop-icons" aria-label="Draggable desktop applications">
           {(Object.keys(appMeta) as AppId[]).map((id) => {
             const app = appMeta[id];
             const Icon = app.icon;
             return (
-              <button key={id} className="desktop-icon" onClick={() => openWindow(id)} aria-label={`Open ${app.label}`}>
+              <button key={id} className="desktop-icon" style={{ transform: `translate3d(${iconPositions[id].x}px, ${iconPositions[id].y}px, 0)` }} onPointerDown={(event) => startIconDrag(event, id)} onClick={() => { if (draggedIcon.current !== id) openWindow(id); }} aria-label={`Open or drag ${app.label}`}>
                 <span className={`app-icon app-${app.tone}`}><Icon size={32} strokeWidth={1.6} /></span>
                 <span>{app.label}</span>
               </button>
@@ -279,8 +332,8 @@ export default function MacDesktop() {
             </div>
           </div>
           <div className="status-widget widget">
-            <div><span>LOCAL TIME</span><strong>{formatClock(now, true)}</strong></div>
-            <div className="status-location"><MapPin size={14} /> Astana, Kazakhstan</div>
+            <div><span>ASTANA NOW</span><strong>{weather ? `${weather.temperature}°` : formatClock(now, true)}</strong></div>
+            <div className="status-location"><CloudSun size={14} /> {weather ? `Wind ${weather.wind} km/h` : "Astana, Kazakhstan"}</div>
             <div className="availability"><span className="online-dot" /> Open for select product work</div>
           </div>
           <div className="shipping-widget widget">
@@ -291,9 +344,9 @@ export default function MacDesktop() {
           </div>
         </aside>
 
-        {windows.map((item) => item.open && !item.minimized && (
+        {windows.map((item) => item.open && (!item.minimized || item.minimizing) && (
           <section
-            className={`mac-window window-${item.id} ${item.maximized ? "is-maximized" : ""}`}
+            className={`mac-window window-${item.id} ${item.maximized ? "is-maximized" : ""} ${item.minimizing ? "is-minimizing" : ""}`}
             key={item.id}
             style={item.maximized ? { zIndex: item.z } : { zIndex: item.z, transform: `translate3d(${item.x}px, ${item.y}px, 0)` }}
             onPointerDown={() => focusWindow(item.id)}
@@ -342,7 +395,8 @@ export default function MacDesktop() {
               {item.id === "about" && (
                 <div className="about-window">
                   <div className="about-portrait">
-                    <div className="portrait-monogram">K/Y</div>
+                    <Image src="/profile-kassym.png" alt="Portrait of Kassym Yermakhanbet" fill sizes="340px" loading="eager" />
+                    <div className="portrait-shade" />
                     <span>PRODUCT SYSTEMS<br />ENGINEER</span>
                   </div>
                   <div className="about-text">
@@ -363,14 +417,20 @@ export default function MacDesktop() {
               {item.id === "resume" && (
                 <div className="resume-window">
                   <div className="resume-toolbar">
-                    <span>1 page selected</span>
+                    <span>Full professional profile · updated 2026</span>
                     <a href="/Kassym_Yermakhanbet_CV.pdf" target="_blank"><Download size={14} /> Download PDF</a>
                   </div>
                   <article className="resume-paper">
-                    <header><div><span>KASSYM</span><strong>YERMAKHANBET</strong></div><p>Full-Stack &amp; AI Product Engineer<br />Astana · Remote worldwide</p></header>
-                    <section><h3>Profile</h3><p>Product-minded engineer shipping typed APIs, internal platforms, real-time products and production-shaped AI systems.</p></section>
-                    <section><h3>Experience</h3><div className="resume-row"><strong>Seven Hills LLP</strong><span>2025 — now</span><p>Product systems, OSINT tooling, real-time geolocation and applied AI.</p></div><div className="resume-row"><strong>Ministry of Internal Affairs</strong><span>2022 — 2024</span><p>Internal workflow software and regulated role-based systems.</p></div></section>
-                    <section><h3>Core stack</h3><p>TypeScript · React · Next.js · Python · FastAPI · Go · PostgreSQL · Redis · Docker · AWS · Terraform · RAG</p></section>
+                    <header><div><span>KASSYM</span><strong>YERMAKHANBET</strong></div><p>Full-Stack &amp; AI Product Engineer<br />Astana · Remote worldwide<br />honormorethangold@gmail.com</p></header>
+                    <section><h3>Profile</h3><p>Backend / full-stack engineer with 4+ years shipping typed APIs, internal platforms and AI-integrated products. Hands-on with production-shaped RAG, LLM-serving infrastructure, AWS serverless pipelines, async FastAPI services, Go concurrency tooling and Next.js / Vue front-ends. Strong on observability, Docker, CI and measurable delivery.</p></section>
+                    <section><h3>Featured engineering</h3>
+                      <div className="resume-row"><strong>rag-docs — Citation-grounded RAG</strong><span>2025</span><p>pgvector HNSW retrieval, local LLMs, cross-encoder reranking and a 25-question evaluation harness with recall@5 = 1.00.</p></div>
+                      <div className="resume-row"><strong>llm-gateway — OpenAI-compatible gateway</strong><span>2026</span><p>Per-key auth, atomic Redis rate limiting, caching, provider fallback, SSE streaming, usage accounting and Prometheus metrics.</p></div>
+                      <div className="resume-row"><strong>aws-serverless-ingest</strong><span>2026</span><p>Terraform-defined S3 → SQS → Lambda → DynamoDB pipeline with partial-batch retries, DLQ and least-privilege IAM.</p></div>
+                    </section>
+                    <section><h3>Experience</h3><div className="resume-row"><strong>Software Development Specialist · Seven Hills LLP</strong><span>2025 — now</span><p>Built real-time geolocation, OSINT intelligence workflows, AI integrations and a self-hosted visual CMS/CRM platform. Standardised typed Python, async SQLAlchemy, Docker and GitHub Actions delivery.</p></div><div className="resume-row"><strong>Software Developer · Ministry of Internal Affairs</strong><span>2022 — 2024</span><p>Designed CRM and role-based internal systems, modernised legacy components and delivered software under government security requirements.</p></div></section>
+                    <section><h3>Technical stack</h3><p><strong>Frontend:</strong> TypeScript, React, Next.js, Vue.js · <strong>Backend:</strong> Python, FastAPI, Django, SQLAlchemy, Go, Node.js · <strong>Data:</strong> PostgreSQL, pgvector, Redis, MongoDB · <strong>AI:</strong> RAG, embeddings, reranking, Ollama, eval harnesses · <strong>Cloud:</strong> AWS, Terraform, Docker, GitHub Actions, Prometheus.</p></section>
+                    <section><h3>Education &amp; languages</h3><p>BSc Computer Engineering &amp; Software — IITU, 2022 · Bachelor of Laws — Taraz Regional University, 2024.<br />English C1 · Russian native · Kazakh native · German conversational.</p></section>
                   </article>
                 </div>
               )}
@@ -393,7 +453,7 @@ export default function MacDesktop() {
 
               {item.id === "contact" && (
                 <div className="contact-window">
-                  <aside><div className="contact-avatar">KY</div><strong>Kassym Yermakhanbet</strong><span>Available for select product work</span></aside>
+                  <aside><div className="contact-avatar"><Image src="/profile-kassym.png" alt="Kassym" fill sizes="84px" /></div><strong>Kassym Yermakhanbet</strong><span>Available for select product work</span></aside>
                   <div className="contact-card">
                     <span className="window-kicker">LET&apos;S BUILD SOMETHING USEFUL</span>
                     <h2>Have a complex workflow?</h2>
@@ -403,10 +463,16 @@ export default function MacDesktop() {
                       <a href="https://github.com/KassieIII" target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub</a>
                       <a href="https://www.linkedin.com/in/kassym-yermakhanbet-635163235/" target="_blank" rel="noreferrer"><BriefcaseBusiness size={17} /> LinkedIn</a>
                       <a href="https://www.upwork.com/freelancers/~01f07d973e8bc9cf88" target="_blank" rel="noreferrer"><Globe2 size={17} /> Upwork</a>
+                      <a href="https://huggingface.co/KassieIII" target="_blank" rel="noreferrer"><Sparkles size={17} /> Hugging Face</a>
                     </div>
                   </div>
                 </div>
               )}
+
+              {item.id === "paint" && <PaintApp />}
+              {item.id === "photos" && <PhotosApp />}
+              {item.id === "chess" && <ChessApp />}
+              {item.id === "music" && <MusicApp />}
             </div>
           </section>
         ))}

@@ -1,17 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import SystemLayer from "@/components/SystemLayer";
 
 const title = "Kassym Yermakhanbet — Full-Stack & AI Product Engineer";
-const description = "Product engineer in Astana building SaaS, internal platforms, AI/RAG systems and production-ready web products end to end.";
+const description = "An interactive desktop portfolio for a product engineer building SaaS, operational platforms and production-ready AI systems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dev-portfolio-sigma-sepia.vercel.app"),
   title,
   description,
-  applicationName: "Kassym Yermakhanbet Portfolio",
+  applicationName: "KY/OS Portfolio",
   keywords: ["Full-stack engineer", "AI product engineer", "SaaS developer", "Next.js developer", "FastAPI developer", "RAG engineer", "Astana"],
   authors: [{ name: "Kassym Yermakhanbet", url: "https://github.com/KassieIII" }],
   alternates: { canonical: "/" },
@@ -19,25 +16,15 @@ export const metadata: Metadata = {
     title,
     description,
     url: "/",
-    siteName: "Kassym Yermakhanbet — Product Systems",
+    siteName: "KY/OS — Kassym Yermakhanbet",
     type: "website",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Kassym Yermakhanbet — Full-Stack and AI Product Engineer" }],
+    images: [{ url: "/og.png", width: 1731, height: 909, alt: "KY/OS interactive portfolio desktop" }],
   },
   twitter: { card: "summary_large_image", title, description, images: ["/og.png"] },
 };
 
-export const viewport: Viewport = { themeColor: "#0a0f0e", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#8fb7df", colorScheme: "dark light" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        <div className="noise" aria-hidden="true" />
-        <SystemLayer />
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
+  return <html lang="en"><body>{children}</body></html>;
 }

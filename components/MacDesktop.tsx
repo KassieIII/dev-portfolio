@@ -101,7 +101,7 @@ const initialWindows: DesktopWindow[] = [
   { id: "lanaya", title: appMeta.lanaya.title, open: false, minimized: false, maximized: false, minimizing: false, z: 16, x: 140, y: 58 },
 ];
 
-const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 62 + Math.floor(index / 5) * 88, y: 62 + (index % 5) * 78 }])) as Record<AppId, { x: number; y: number }>;
+const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 68 + Math.floor(index / 5) * 106, y: 64 + (index % 5) * 94 }])) as Record<AppId, { x: number; y: number }>;
 
 const stackGroups = [
   ["Interface", "TypeScript", "React", "Next.js", "Vue.js"],
@@ -197,10 +197,13 @@ function DesktopCore() {
   }, [locked, windows]);
 
   function focusWindow(id: AppId) {
+    document.querySelector<HTMLElement>(".desktop")?.scrollTo({ top: 0 });
     setWindows((items) => items.map((item) => item.id === id ? { ...item, z: topZ + 1, minimized: false } : item));
   }
 
   function openWindow(id: AppId) {
+    document.querySelector<HTMLElement>(".desktop")?.scrollTo({ top: 0 });
+    (document.activeElement as HTMLElement | null)?.blur();
     if (minimizeTimers.current[id]) window.clearTimeout(minimizeTimers.current[id]);
     setWindows((items) => items.map((item) => item.id === id
       ? { ...item, open: true, minimized: false, minimizing: false, maximized: item.open ? item.maximized : false, z: topZ + 1 }
@@ -240,8 +243,11 @@ function DesktopCore() {
     node.setPointerCapture(event.pointerId);
 
     const onMove = (moveEvent: PointerEvent) => {
-      const x = Math.max(12, Math.min(window.innerWidth - 260, originX + moveEvent.clientX - startX));
-      const y = Math.max(42, Math.min(window.innerHeight - 140, originY + moveEvent.clientY - startY));
+      const bounds = node.parentElement?.getBoundingClientRect();
+      const windowWidth = bounds?.width ?? 360;
+      const windowHeight = bounds?.height ?? 240;
+      const x = Math.max(8, Math.min(window.innerWidth - windowWidth - 8, originX + moveEvent.clientX - startX));
+      const y = Math.max(42, Math.min(window.innerHeight - windowHeight - 88, originY + moveEvent.clientY - startY));
       setWindows((items) => items.map((item) => item.id === id ? { ...item, x, y } : item));
     };
     const onUp = () => {
@@ -486,16 +492,20 @@ function DesktopCore() {
                     <a href="/Kassym_Yermakhanbet_CV.pdf" target="_blank"><Download size={14} /> Download PDF</a>
                   </div>
                   <article className="resume-paper">
-                    <header><div><span>KASSYM</span><strong>YERMAKHANBET</strong></div><p>Full-Stack &amp; AI Product Engineer<br />Astana · Remote worldwide<br />honormorethangold@gmail.com</p></header>
-                    <section><h3>Profile</h3><p>Backend / full-stack engineer with 4+ years shipping typed APIs, internal platforms and AI-integrated products. Hands-on with production-shaped RAG, LLM-serving infrastructure, AWS serverless pipelines, async FastAPI services, Go concurrency tooling and Next.js / Vue front-ends. Strong on observability, Docker, CI and measurable delivery.</p></section>
-                    <section><h3>Featured engineering</h3>
-                      <div className="resume-row"><strong>rag-docs — Citation-grounded RAG</strong><span>2025</span><p>pgvector HNSW retrieval, local LLMs, cross-encoder reranking and a 25-question evaluation harness with recall@5 = 1.00.</p></div>
-                      <div className="resume-row"><strong>llm-gateway — OpenAI-compatible gateway</strong><span>2026</span><p>Per-key auth, atomic Redis rate limiting, caching, provider fallback, SSE streaming, usage accounting and Prometheus metrics.</p></div>
-                      <div className="resume-row"><strong>aws-serverless-ingest</strong><span>2026</span><p>Terraform-defined S3 → SQS → Lambda → DynamoDB pipeline with partial-batch retries, DLQ and least-privilege IAM.</p></div>
+                    <header><div><span>KASSYM</span><strong>YERMAKHANBET</strong><small>FULL-STACK &amp; AI SOFTWARE ENGINEER</small></div><p>Astana, Kazakhstan · Remote worldwide<br />+7 708 145 9577 · honormorethangold@gmail.com<br />Portfolio · GitHub · LinkedIn · Upwork</p></header>
+                    <section><h3>Professional profile</h3><p>Full-stack and AI software engineer with 4+ years of experience delivering customer-facing SaaS, internal platforms, self-hosted CMS/CRM systems and production AI infrastructure. Builds systems end to end with Python/FastAPI, TypeScript/React/Next.js, PostgreSQL, Redis, Docker and AWS. Recent work includes a visual website builder, an AI-assisted proposal SaaS, multilingual conversion websites and measurable RAG/LLM systems. Open to full-time and contract roles, remote or with relocation.</p></section>
+                    <section><h3>Core capabilities</h3><div className="resume-capabilities"><strong>Product &amp; frontend</strong><p>TypeScript, React, Next.js, Vite, Vue 3, responsive UI systems, UX implementation</p><strong>Backend</strong><p>Python, FastAPI, Node.js/Express, Go, SQLAlchemy 2.0, REST, WebSocket, async services</p><strong>AI &amp; retrieval</strong><p>RAG, pgvector HNSW, Ollama, embeddings, reranking, eval harnesses, LLM gateways</p><strong>Cloud &amp; delivery</strong><p>Docker, Nginx, AWS Lambda/S3/SQS/DynamoDB, Terraform, GitHub Actions, Prometheus</p><strong>Commercial delivery</strong><p>CMS/CRM, multilingual sites, on-page SEO, analytics, lead funnels, e-signatures</p></div></section>
+                    <section><h3>Selected products &amp; client work</h3>
+                      <div className="resume-row"><strong>Seven Hills Intelligence Site Builder &amp; CRM</strong><span>Lead Full-Stack Developer</span><p>Built a self-hosted Wix-like CMS/CRM with a drag-and-drop canvas, smart guides, 30+ widgets, reusable design tokens, responsive device styles, version history, dynamic collections, 26-language translation, leads, support chat, analytics, audit logs, scheduled publishing, SEO prerender and backups.</p></div>
+                      <div className="resume-row"><strong>ProposalFlow</strong><span>Full-Stack SaaS · 2026</span><p>Built a proposal-to-invoice workflow with AI-assisted structured drafts, branded client links, approvals, e-signatures, invoices, payment-method handoff, client activity and subscription tiers.</p></div>
+                      <div className="resume-row"><strong>Olzhas Stroy</strong><span>Next.js · SEO · UX</span><p>Created a premium RU/KZ/EN sales website with a pricing calculator, WhatsApp conversion flow, 46 video case studies, 27 galleries, 352 project photos and dedicated SEO pages.</p></div>
                     </section>
-                    <section><h3>Experience</h3><div className="resume-row"><strong>Software Development Specialist · Seven Hills LLP</strong><span>2025 — now</span><p>Built real-time geolocation, OSINT intelligence workflows, AI integrations and a self-hosted visual CMS/CRM platform. Standardised typed Python, async SQLAlchemy, Docker and GitHub Actions delivery.</p></div><div className="resume-row"><strong>Software Developer · Ministry of Internal Affairs</strong><span>2022 — 2024</span><p>Designed CRM and role-based internal systems, modernised legacy components and delivered software under government security requirements.</p></div></section>
-                    <section><h3>Technical stack</h3><p><strong>Frontend:</strong> TypeScript, React, Next.js, Vue.js · <strong>Backend:</strong> Python, FastAPI, Django, SQLAlchemy, Go, Node.js · <strong>Data:</strong> PostgreSQL, pgvector, Redis, MongoDB · <strong>AI:</strong> RAG, embeddings, reranking, Ollama, eval harnesses · <strong>Cloud:</strong> AWS, Terraform, Docker, GitHub Actions, Prometheus.</p></section>
-                    <section><h3>Education &amp; languages</h3><p>BSc Computer Engineering &amp; Software — IITU, 2022 · Bachelor of Laws — Taraz Regional University, 2024.<br />English C1 · Russian native · Kazakh native · German conversational.</p></section>
+                    <section><h3>Professional experience</h3>
+                      <div className="resume-row"><strong>Software Development Specialist · Seven Hills LLP</strong><span>Jan 2025 - Present</span><p>Built and deployed the visual CMS/CRM, real-time geolocation and operational dashboards, OSINT enrichment tools, AI integrations, typed Python services, Docker builds and measurable retrieval/evaluation workflows.</p></div>
+                      <div className="resume-row"><strong>Software Developer · Ministry of Internal Affairs of Kazakhstan</strong><span>Jun 2022 - Dec 2024</span><p>Designed a custom CRM, role-based applications for sensitive data, modernised legacy components and maintained production systems under government security and data-protection requirements.</p></div>
+                    </section>
+                    <section><h3>Selected open-source engineering</h3><p><strong>rag-docs</strong> - FastAPI, pgvector HNSW retrieval, citation-grounded answers, reranking and evaluation. · <strong>llm-gateway</strong> - OpenAI-compatible gateway with authentication, Redis limits, caching, fallback, SSE and metrics. · <strong>aws-serverless-ingest</strong> - Terraform-defined S3 to SQS to Lambda to DynamoDB pipeline with DLQ and partial-batch retries.</p></section>
+                    <section><h3>Education, languages &amp; availability</h3><p>BSc, Computer Engineering &amp; Software - IITU, 2022 · Bachelor of Laws, Jurisprudence - Taraz Regional University, 2024 · Nuclear Physics coursework - ENU, 2015-2017.<br />English C1 · Russian native · Kazakh native · German conversational.<br /><strong>Remote worldwide · Open to relocation: Germany, Poland, Spain, United States · Full-time or contract.</strong></p></section>
                   </article>
                 </div>
               )}

@@ -24,7 +24,7 @@ export default function AssistantChatApp({ character }: { character: CharacterId
     }).catch(() => setConfigured(false));
   }, [profile]);
 
-  useEffect(() => { messageEnd.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, sending]);
+  useEffect(() => { messageEnd.current?.parentElement?.scrollTo({ top: messageEnd.current.parentElement.scrollHeight, behavior: "smooth" }); }, [messages, sending]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();

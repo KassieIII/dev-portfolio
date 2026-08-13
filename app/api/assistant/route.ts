@@ -2,13 +2,13 @@ import { CharacterId, characters, portfolioContext } from "@/lib/characters";
 
 export const runtime = "nodejs";
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+const MODEL = process.env.GEMINI_MODEL?.trim() || "gemini-3.6-flash";
 const limitWindow = new Map<string, { count: number; resetAt: number }>();
 
 type IncomingMessage = { role: "user" | "assistant"; text: string };
 
 function getApiKey() {
-  return process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  return (process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY)?.trim();
 }
 
 function isCharacter(value: unknown): value is CharacterId {

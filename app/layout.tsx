@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const title = "Kassym Yermakhanbet — Full-Stack & AI Product Engineer";
-const description = "An interactive desktop portfolio for a product engineer building SaaS, operational platforms and production-ready AI systems.";
+const title = "Kassym Yermakhanbet — Full-Stack & AI Software Engineer";
+const description = "An interactive desktop portfolio for a full-stack and AI software engineer building SaaS, self-hosted CMS/CRM platforms, cloud infrastructure and measurable AI systems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dev-portfolio-sigma-sepia.vercel.app"),
   title,
   description,
   applicationName: "KY/OS Portfolio",
-  keywords: ["Full-stack engineer", "AI product engineer", "SaaS developer", "Next.js developer", "FastAPI developer", "RAG engineer", "Astana"],
+  keywords: ["Full-stack software engineer", "AI engineer", "SaaS developer", "Next.js developer", "FastAPI developer", "RAG engineer", "CMS CRM developer", "Astana"],
   authors: [{ name: "Kassym Yermakhanbet", url: "https://github.com/KassieIII" }],
   alternates: { canonical: "/" },
   openGraph: {

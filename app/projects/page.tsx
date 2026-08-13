@@ -4,7 +4,7 @@ import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "Selected Product & Engineering Work — Kassym Yermakhanbet",
-  description: "SaaS, visual CMS, client platforms, RAG systems, AI infrastructure and cloud engineering by Kassym Yermakhanbet.",
+  description: "Current SaaS, self-hosted visual CMS/CRM, client platforms, RAG systems, LLM infrastructure and AWS engineering by Kassym Yermakhanbet.",
   alternates: { canonical: "/projects" },
 };
 

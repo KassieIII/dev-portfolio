@@ -7,7 +7,7 @@ export default function Navbar() {
         <span className="brand-mark">K/Y</span>
         <span className="brand-copy">
           <strong>Kassym Yermakhanbet</strong>
-          <small>Product systems engineer</small>
+          <small>Full-stack &amp; AI software engineer</small>
         </span>
       </Link>
 

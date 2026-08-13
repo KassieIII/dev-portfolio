@@ -104,24 +104,25 @@ const initialWindows: DesktopWindow[] = [
 const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 68 + Math.floor(index / 5) * 106, y: 64 + (index % 5) * 94 }])) as Record<AppId, { x: number; y: number }>;
 
 const stackGroups = [
-  ["Interface", "TypeScript", "React", "Next.js", "Vue.js"],
-  ["Backend", "Python", "FastAPI", "Go", "Node.js"],
-  ["Data", "PostgreSQL", "pgvector", "Redis", "DynamoDB"],
-  ["AI systems", "RAG", "Ollama", "LLM gateways", "Evaluation"],
-  ["Delivery", "Docker", "AWS", "Terraform", "GitHub Actions"],
+  ["Product & frontend", "TypeScript", "React", "Next.js", "Vite", "Vue 3", "Responsive UI", "UX implementation"],
+  ["Backend", "Python", "FastAPI", "Node.js / Express", "Go", "SQLAlchemy 2.0", "REST", "WebSocket", "Async services"],
+  ["AI & retrieval", "RAG", "pgvector HNSW", "Ollama", "Embeddings", "Reranking", "Eval harnesses", "LLM gateways"],
+  ["Data", "PostgreSQL", "Redis", "MongoDB", "MySQL", "IndexedDB"],
+  ["Cloud & delivery", "Docker", "Nginx", "AWS Lambda / S3 / SQS / DynamoDB", "Terraform", "GitHub Actions", "Prometheus"],
+  ["Commercial delivery", "CMS / CRM", "Multilingual sites", "SEO", "Analytics", "Lead funnels", "E-signatures"],
 ];
 
 const commands: Record<string, string[]> = {
   help: ["KY/OS commands:", "about · skills · projects · contact · socials · neofetch", "date · uptime · pwd · ls · cat resume.txt · fortune", "open <app> · theme <lanaya|hiyuki|kurisu> · echo <text> · clear"],
-  about: ["Kassym Yermakhanbet", "Full-stack & AI product engineer · Astana, Kazakhstan", "Building clear products from complex operational workflows."],
-  skills: ["TypeScript / React / Next.js", "Python / FastAPI / Go", "PostgreSQL / Redis / AWS", "RAG / LLM infrastructure / product engineering"],
+  about: ["Kassym Yermakhanbet", "Full-Stack & AI Software Engineer · Astana, Kazakhstan", "4+ years delivering SaaS, internal platforms, CMS/CRM and production AI infrastructure."],
+  skills: ["Frontend: TypeScript / React / Next.js / Vue 3 / Vite", "Backend: Python / FastAPI / Node.js / Go / SQLAlchemy 2.0", "Data: PostgreSQL / Redis / MongoDB / MySQL / IndexedDB", "AI: RAG / pgvector HNSW / Ollama / reranking / evaluation", "Delivery: Docker / Nginx / AWS / Terraform / GitHub Actions / Prometheus"],
   projects: ["01 Seven Hills Visual CMS", "02 ProposalFlow", "03 Olzhas Stroy", "04 Citation-grounded RAG", "Run the Projects app for the complete archive."],
   contact: ["honormorethangold@gmail.com", "github.com/KassieIII", "LinkedIn: kassym-yermakhanbet-635163235"],
   socials: ["GitHub     github.com/KassieIII", "HuggingFace huggingface.co/KassieIII", "LinkedIn   kassym-yermakhanbet-635163235", "Upwork     ~01f07d973e8bc9cf88"],
   pwd: ["/Users/kassym/portfolio"],
   ls: ["Applications/  Projects/  resume.txt  skills.json  contact.vcf"],
-  "cat resume.txt": ["Kassym Yermakhanbet — Full-Stack & AI Product Engineer", "4+ years · SaaS · applied AI · production systems", "Open the Résumé app for the complete profile."],
-  neofetch: ["  KY/OS  1.2.0", "  Host   Astana Workstation", "  Stack  Next.js · Python · Go · AWS · RAG", "  Uptime Shipping useful systems since 2022", "  Theme  Violet Glass"],
+  "cat resume.txt": ["Kassym Yermakhanbet — Full-Stack & AI Software Engineer", "4+ years · SaaS · CMS/CRM · applied AI · cloud infrastructure", "Open the Résumé app for the complete 2026 profile."],
+  neofetch: ["  KY/OS  1.3.0", "  Host   Astana Workstation", "  Stack  Next.js · FastAPI · PostgreSQL · AWS · RAG", "  Uptime Shipping production systems since 2022", "  Theme  Adaptive Character Glass"],
   fortune: ["The best interface is the one that makes a hard system feel obvious."],
 };
 
@@ -319,7 +320,7 @@ function DesktopCore() {
           <div className="lock-profile">
             <div className="lock-avatar"><Image src="/profile-kassym.png" alt="Kassym Yermakhanbet" fill sizes="70px" loading="eager" /></div>
             <strong>Kassym Yermakhanbet</strong>
-            <span>Full-stack &amp; AI product engineer</span>
+            <span>Full-stack &amp; AI software engineer</span>
             <small><span aria-hidden="true">↵</span> click to enter</small>
           </div>
         </button>
@@ -365,7 +366,7 @@ function DesktopCore() {
 
         <button className="desktop-profile-card" onClick={() => openWindow("about")} aria-label="Open Kassym profile">
           <span className="desktop-profile-photo"><Image src="/profile-kassym.png" alt="" fill sizes="52px" loading="eager" /></span>
-          <span><strong>Kassym Yermakhanbet</strong><small>Full-stack &amp; AI product engineer</small></span>
+          <span><strong>Kassym Yermakhanbet</strong><small>Full-stack &amp; AI software engineer</small></span>
         </button>
 
         <div className="desktop-icons" aria-label="Draggable desktop applications">
@@ -468,16 +469,16 @@ function DesktopCore() {
                   <div className="about-portrait">
                     <Image src="/profile-kassym.png" alt="Portrait of Kassym Yermakhanbet" fill sizes="340px" loading="eager" />
                     <div className="portrait-shade" />
-                    <span>PRODUCT SYSTEMS<br />ENGINEER</span>
+                    <span>FULL-STACK &amp; AI<br />SOFTWARE ENGINEER</span>
                   </div>
                   <div className="about-text">
                     <span className="window-kicker">HELLO, I&apos;M KASSYM.</span>
                     <h2>I turn operational friction into deployed systems.</h2>
-                    <p>Full-stack engineer with 4+ years across government platforms, real-time operations, SaaS and applied AI. I connect product judgment, interaction design and production engineering so useful ideas make it all the way to users.</p>
+                    <p>Full-stack and AI software engineer with 4+ years delivering customer-facing SaaS, internal platforms, self-hosted CMS/CRM systems and production AI infrastructure. I build systems end to end, from product interaction to cloud delivery and measurable AI.</p>
                     <div className="about-facts">
                       <div><span>Base</span><strong>Astana, KZ</strong></div>
-                      <div><span>Focus</span><strong>SaaS &amp; AI systems</strong></div>
-                      <div><span>Languages</span><strong>EN · RU · KZ · DE</strong></div>
+                      <div><span>Focus</span><strong>SaaS · CMS/CRM · AI</strong></div>
+                      <div><span>Languages</span><strong>EN C1 · RU/KZ native · DE</strong></div>
                       <div><span>Experience</span><strong>4+ years</strong></div>
                     </div>
                     <button onClick={() => openWindow("contact")}>Start a conversation <Mail size={15} /></button>
@@ -521,7 +522,7 @@ function DesktopCore() {
 
               {item.id === "stack" && (
                 <div className="stack-window">
-                  <header><div className="chip"><Cpu size={28} /></div><div><span>KY WORKSTATION</span><h2>Technical System Profile</h2><p>Product engineering · Backend systems · Applied AI</p></div></header>
+                  <header><div className="chip"><Cpu size={28} /></div><div><span>KY WORKSTATION · UPDATED 2026</span><h2>Full-Stack Engineering Profile</h2><p>Product &amp; frontend · Backend · AI &amp; retrieval · Cloud delivery</p></div></header>
                   <div className="stack-groups">{stackGroups.map(([group, ...skills]) => <section key={group}><h3>{group}</h3><div>{skills.map((skill) => <span key={skill}>{skill}</span>)}</div></section>)}</div>
                 </div>
               )}
@@ -532,9 +533,10 @@ function DesktopCore() {
                   <div className="contact-card">
                     <span className="window-kicker">LET&apos;S BUILD SOMETHING USEFUL</span>
                     <h2>Have a complex workflow?</h2>
-                    <p>Tell me what is slow, risky or unnecessarily manual. I&apos;ll help turn it into a clear product.</p>
+                    <p>Tell me what is slow, risky or unnecessarily manual. I can take it from UX and full-stack implementation through cloud delivery and measurable AI.</p>
                     <a className="primary-contact" href="mailto:honormorethangold@gmail.com?subject=Product%20inquiry"><Mail size={17} /> honormorethangold@gmail.com</a>
                     <div className="contact-links">
+                      <a href="tel:+77081459577"><ContactRound size={17} /> +7 708 145 9577</a>
                       <a href="https://github.com/KassieIII" target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub</a>
                       <a href="https://www.linkedin.com/in/kassym-yermakhanbet-635163235/" target="_blank" rel="noreferrer"><BriefcaseBusiness size={17} /> LinkedIn</a>
                       <a href="https://www.upwork.com/freelancers/~01f07d973e8bc9cf88" target="_blank" rel="noreferrer"><Globe2 size={17} /> Upwork</a>

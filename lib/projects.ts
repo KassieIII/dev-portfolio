@@ -22,7 +22,7 @@ export const projects: Project[] = [
     description:
       "A self-hosted visual website builder with an integrated CRM and CMS. Editors assemble pages on-canvas, manage leads, publish content and operate the site without touching code — including in closed networks.",
     outcome: "30+ widgets · 26-language content layer · CRM, chat, analytics and audit log",
-    tags: ["React", "TypeScript", "Go", "PostgreSQL", "Docker"],
+    tags: ["React", "TypeScript", "Node.js", "Express", "Docker"],
     demo: "https://forensic.7hills.kz/",
     preview: "/project-previews/seven-hills.png",
     featured: true,
@@ -36,7 +36,7 @@ export const projects: Project[] = [
     description:
       "An end-to-end workspace for freelancers and agencies: AI-assisted proposals, branded client links, browser e-signatures, invoices and a client portal in one coherent workflow.",
     outcome: "From brief to signed proposal and payment handoff in one product",
-    tags: ["React", "TypeScript", "Supabase", "AI", "Paddle"],
+    tags: ["React", "TypeScript", "AI", "E-signatures", "SaaS"],
     demo: "https://getproposalflow.com/",
     preview: "/project-previews/proposalflow.png",
     featured: true,
@@ -63,7 +63,7 @@ export const projects: Project[] = [
     eyebrow: "AI infrastructure / 2025",
     description:
       "A production-shaped document intelligence service: PDF and Markdown ingestion, pgvector retrieval, optional reranking, local LLM answers and source citations on every supported claim.",
-    outcome: "25-question evaluation harness · recall@5 1.00 · reproducible quality checks",
+    outcome: "25-question evaluation harness · citation-grounded output · reproducible quality checks",
     tags: ["FastAPI", "pgvector", "Ollama", "RAG", "Docker"],
     github: "https://github.com/KassieIII/rag-docs",
     demo: "https://huggingface.co/spaces/KassieIII/rag-docs-demo",
@@ -91,8 +91,8 @@ export const projects: Project[] = [
     title: "AWS Event Ingest",
     eyebrow: "Cloud pipeline / 2026",
     description:
-      "An event-driven S3 → SQS → Lambda → DynamoDB ingest pipeline defined in Terraform, with partial-batch retries, a dead-letter queue and least-privilege IAM.",
-    outcome: "Infrastructure and failure paths are fully testable without an AWS account",
+      "An event-driven S3 → SQS → Lambda → DynamoDB ingest pipeline defined in Terraform, with partial-batch retries, a dead-letter queue, least-privilege IAM and moto-based tests.",
+    outcome: "Infrastructure and failure paths are reproducible and testable without an AWS account",
     tags: ["AWS", "Terraform", "Lambda", "SQS", "DynamoDB"],
     github: "https://github.com/KassieIII/aws-serverless-ingest",
     preview: "/project-previews/aws-ingest.png",

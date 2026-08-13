@@ -61,7 +61,7 @@ export default function AssistantChatApp({ character }: { character: CharacterId
         <div className="assistant-presence"><span className="online-dot" /> {configured ? "GEMINI ONLINE" : "LOCAL MODE"}</div>
         <strong>{profile.name}</strong>
         <small>{profile.title}</small>
-        <p>{configured ? `${model} is connected through a protected server channel.` : "Add GEMINI_API_KEY to the deployment to enable live AI. The character guide remains available locally."}</p>
+        <p>{configured ? `${model} · multilingual character and portfolio intelligence.` : "Live AI is unavailable. The local character guide remains ready."}</p>
       </aside>
       <main>
         <header><div><Sparkles size={16} /><span><strong>{profile.name} Intelligence</strong><small>{profile.channel}</small></span></div><em>{sending ? "THINKING" : configured ? "LIVE AI" : "READY"}</em></header>
@@ -71,7 +71,7 @@ export default function AssistantChatApp({ character }: { character: CharacterId
           <div ref={messageEnd} />
         </div>
         <div className="chat-prompts">{profile.suggestions.map((prompt) => <button key={prompt} onClick={() => setInput(prompt)}>{prompt}</button>)}</div>
-        <form onSubmit={submit}><input aria-label={`Message ${profile.name}`} value={input} onChange={(event) => setInput(event.target.value)} placeholder={`Ask ${profile.name} anything…`} maxLength={1500} /><button aria-label="Send message" disabled={sending}><Send size={16} /></button></form>
+        <form onSubmit={submit}><input aria-label={`Message ${profile.name}`} value={input} onChange={(event) => setInput(event.target.value)} placeholder={`Ask ${profile.name} anything in any language…`} maxLength={1500} /><button aria-label="Send message" disabled={sending}><Send size={16} /></button></form>
       </main>
     </div>
   );

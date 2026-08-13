@@ -5,7 +5,7 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Kassym Yermakhanbet",
-    jobTitle: "Full-Stack and AI Product Engineer",
+    jobTitle: "Full-Stack and AI Software Engineer",
     url: "https://dev-portfolio-sigma-sepia.vercel.app/",
     email: "mailto:honormorethangold@gmail.com",
     address: { "@type": "PostalAddress", addressLocality: "Astana", addressCountry: "KZ" },
@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <h1 className="sr-only">Kassym Yermakhanbet — Full-Stack and AI Product Engineer</h1>
+      <h1 className="sr-only">Kassym Yermakhanbet — Full-Stack and AI Software Engineer</h1>
       <MacDesktop />
     </>
   );

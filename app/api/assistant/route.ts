@@ -48,7 +48,7 @@ export async function POST(request: Request) {
   const rawMessages = Array.isArray(body.messages) ? body.messages : [];
   const messages = rawMessages
     .filter((item): item is IncomingMessage => item && typeof item === "object" && ((item as IncomingMessage).role === "user" || (item as IncomingMessage).role === "assistant") && typeof (item as IncomingMessage).text === "string")
-    .slice(-12)
+    .slice(-20)
     .map((item) => ({ ...item, text: item.text.trim().slice(0, 1_500) }))
     .filter((item) => item.text);
 
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20_000);
+  const timeout = setTimeout(() => controller.abort(), 35_000);
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
       method: "POST",
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: `${characters[character].systemPrompt}\n\nPORTFOLIO CONTEXT:\n${portfolioContext}` }] },
         contents: messages.map((message) => ({ role: message.role === "assistant" ? "model" : "user", parts: [{ text: message.text }] })),
-        generationConfig: { maxOutputTokens: 900, thinkingConfig: { thinkingLevel: "low" } },
+        generationConfig: { maxOutputTokens: 1_000, temperature: 0.85, topP: 0.95, thinkingConfig: { thinkingLevel: "low" } },
       }),
     });
     const data = await response.json();

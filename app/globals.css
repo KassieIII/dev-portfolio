@@ -246,7 +246,7 @@ a { color: inherit; text-decoration: none; }
 .window-about { width: min(920px, 78vw); height: min(610px, calc(100svh - 130px)); }
 .window-resume { width: min(1080px, 84vw); height: min(760px, calc(100svh - 116px)); }
 .window-terminal { width: min(760px, 68vw); height: min(480px, calc(100svh - 180px)); }
-.window-stack { width: min(820px, 72vw); height: min(600px, calc(100svh - 135px)); }
+.window-stack { width: min(940px, 78vw); height: min(660px, calc(100svh - 125px)); }
 .window-contact { width: min(820px, 72vw); height: min(520px, calc(100svh - 150px)); }
 .window-paint { width: min(1050px,86vw); height: min(670px,calc(100svh - 112px)); }
 .window-photos { width: min(1050px,86vw); height: min(670px,calc(100svh - 112px)); }
@@ -311,15 +311,15 @@ a { color: inherit; text-decoration: none; }
 .terminal-window input { flex: 1; min-width: 30px; border: 0; outline: 0; color: white; caret-color: #6ae49b; background: transparent; font: inherit; }
 .terminal-window form button { padding: 5px 9px; border: 1px solid #6ae49b55; border-radius: 6px; cursor: pointer; color: #8cf0b3; background: #153421; font: 600 .55rem var(--mono); }
 
-.stack-window { padding: 28px; }
+.stack-window { min-height:100%; padding: 28px; }
 .stack-window > header { display: flex; align-items: center; gap: 18px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
 .chip { width: 62px; height: 62px; display: grid; place-items: center; border-radius: 13px; color: white; background: linear-gradient(145deg,#f3ad52,#cf6714); box-shadow: inset 0 0 0 5px rgba(255,255,255,.15); }
 .stack-window header span { color: var(--muted); font: 700 .52rem var(--mono); letter-spacing: .12em; }
 .stack-window header h2 { margin: 4px 0 2px; font-size: 1.35rem; letter-spacing: -.035em; }
 .stack-window header p { margin: 0; color: var(--muted); font-size: .68rem; }
-.stack-groups { margin-top: 20px; display: grid; gap: 8px; }
-.stack-groups section { padding: 12px 0; display: grid; grid-template-columns: 130px 1fr; align-items: start; border-bottom: 1px solid var(--line); }
-.stack-groups h3 { margin: 4px 0 0; color: var(--muted); font: 700 .58rem var(--mono); text-transform: uppercase; }
+.stack-groups { margin-top: 18px; display: grid; grid-template-columns:1fr 1fr; gap: 10px 18px; }
+.stack-groups section { min-width:0; padding: 12px; display: grid; gap:10px; align-content:start; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.08); }
+.stack-groups h3 { margin: 0; color: var(--muted); font: 700 .58rem var(--mono); text-transform: uppercase; }
 .stack-groups section > div { display: flex; flex-wrap: wrap; gap: 6px; }
 .stack-groups section span { padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.22); font-size: .62rem; font-weight: 650; }
 

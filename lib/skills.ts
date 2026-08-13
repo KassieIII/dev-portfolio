@@ -6,22 +6,22 @@ export interface SkillGroup {
 export const skillGroups: SkillGroup[] = [
   {
     category: "Languages",
-    skills: ["Python", "Go", "TypeScript", "JavaScript", "SQL"],
+    skills: ["Python", "Go", "TypeScript", "SQL"],
   },
   {
     category: "Frontend",
-    skills: ["React", "Next.js", "Vue 3", "Pinia", "Tailwind CSS", "Vite"],
+    skills: ["React", "Next.js", "Vue 3", "Vite", "Responsive UI", "UX implementation"],
   },
   {
     category: "Backend",
     skills: [
       "FastAPI",
-      "Django",
-      "Express",
+      "Node.js / Express",
       "Go net/http",
       "SQLAlchemy 2.0",
-      "Alembic",
       "asyncio",
+      "REST",
+      "WebSocket",
     ],
   },
   {
@@ -32,23 +32,23 @@ export const skillGroups: SkillGroup[] = [
     category: "DevOps",
     skills: [
       "Docker",
-      "Distroless images",
+      "AWS Lambda / S3 / SQS / DynamoDB",
+      "Terraform",
       "GitHub Actions",
-      "Linux",
       "Nginx",
-      "Makefile",
+      "Prometheus",
     ],
   },
   {
     category: "Testing",
-    skills: ["pytest", "pytest-asyncio", "vitest", "go test -race", "ruff", "gofmt"],
+    skills: ["moto-based AWS tests", "Retrieval evaluation", "CI quality checks"],
   },
   {
     category: "AI / RAG",
-    skills: ["RAG", "pgvector", "Embeddings", "Ollama", "sentence-transformers"],
+    skills: ["RAG", "pgvector HNSW", "Embeddings", "Ollama", "Reranking", "Evaluation harnesses", "LLM gateways"],
   },
   {
-    category: "Other",
-    skills: ["WebSocket", "REST APIs", "JWT", "OSINT", "AI / LLM Integration"],
+    category: "Commercial delivery",
+    skills: ["CMS / CRM", "Multilingual sites", "On-page SEO", "Analytics", "Lead funnels", "E-signatures"],
   },
 ];

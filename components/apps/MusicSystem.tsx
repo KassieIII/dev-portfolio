@@ -8,6 +8,15 @@ const playlist = [
   { term: "APT ROSÉ Bruno Mars", country: "kr" }, { term: "Supernova aespa", country: "kr" }, { term: "Ditto NewJeans", country: "kr" }, { term: "Dynamite BTS", country: "kr" }, { term: "Magnetic ILLIT", country: "kr" }, { term: "Love Lee AKMU", country: "kr" }, { term: "Pierrot Smiles at Us Kim Wan Sun", country: "kr" },
   { term: "The Moon Represents My Heart Teresa Teng", country: "cn" }, { term: "Red Bean Faye Wong", country: "cn" }, { term: "Fairy Tale Michael Wong", country: "cn" }, { term: "Little Lucky Hebe Tien", country: "cn" }, { term: "Actor Joker Xue", country: "cn" }, { term: "The One and Only Leehom Wang", country: "cn" }, { term: "Last Dance Wu Bai", country: "cn" },
   { term: "Dernière danse Indila", country: "fr" }, { term: "Alors on danse Stromae", country: "fr" }, { term: "Papaoutai Stromae", country: "fr" }, { term: "Je te laisserai des mots Patrick Watson", country: "fr" },
+  { term: "Despacito Luis Fonsi Daddy Yankee", country: "mx" }, { term: "Bailando Enrique Iglesias", country: "mx" }, { term: "TQG Karol G Shakira", country: "mx" },
+  { term: "Calm Down Rema Selena Gomez", country: "za" }, { term: "Water Tyla", country: "za" }, { term: "Love Nwantiti CKay", country: "za" },
+  { term: "Alors on danse Stromae", country: "be" }, { term: "Tout l'univers Gjon's Tears", country: "ch" },
+  { term: "Seni Dert Etmeler Madrigal", country: "tr" }, { term: "Simge Aşkın Olayım", country: "tr" },
+  { term: "Dernière danse Indila", country: "ca" }, { term: "Jerusalema Master KG", country: "za" },
+  { term: "Pedro Jaxomy Agatino Romero Raffaella Carrà", country: "it" }, { term: "Italodisco The Kolors", country: "it" },
+  { term: "I Love You Like An Alcohol The Taxpayers", country: "au" }, { term: "Somebody That I Used to Know Gotye", country: "au" },
+  { term: "Pedro Sampaio PocPoc", country: "br" }, { term: "Ai Se Eu Te Pego Michel Teló", country: "br" },
+  { term: "Måneskin Beggin", country: "it" }, { term: "Golden Hour JVKE", country: "us" },
 ];
 
 export type Track = { trackId: number; trackName: string; artistName: string; artworkUrl100: string; previewUrl?: string; trackViewUrl: string };

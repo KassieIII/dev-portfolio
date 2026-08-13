@@ -26,6 +26,7 @@ import {
   Minus,
   Moon,
   Music,
+  MessageCircleMore,
   Paintbrush,
   SlidersHorizontal,
   Sparkles,
@@ -48,8 +49,9 @@ import MinesweeperApp from "@/components/apps/MinesweeperApp";
 import NotebookApp from "@/components/apps/NotebookApp";
 import StickyNotesApp from "@/components/apps/StickyNotesApp";
 import FilesApp from "@/components/apps/FilesApp";
+import LanayaChatApp from "@/components/apps/LanayaChatApp";
 
-type AppId = "files" | "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music" | "notebook" | "stickies" | "mines";
+type AppId = "files" | "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music" | "notebook" | "stickies" | "mines" | "lanaya";
 type ThemeId = "sky" | "midnight" | "sand";
 
 type DesktopWindow = {
@@ -79,6 +81,7 @@ const appMeta: Record<AppId, { title: string; label: string; icon: typeof Folder
   notebook: { title: "Notebook", label: "Notebook", icon: BookOpen, tone: "notebook" },
   stickies: { title: "Sticky Notes", label: "Stickies", icon: StickyNote, tone: "sticky" },
   mines: { title: "KY Mines", label: "Mines", icon: Bomb, tone: "mines" },
+  lanaya: { title: "Lanaya Intelligence", label: "Lanaya AI", icon: MessageCircleMore, tone: "lanaya" },
 };
 
 const initialWindows: DesktopWindow[] = [
@@ -96,6 +99,7 @@ const initialWindows: DesktopWindow[] = [
   { id: "notebook", title: appMeta.notebook.title, open: false, minimized: false, maximized: false, minimizing: false, z: 13, x: 120, y: 58 },
   { id: "stickies", title: appMeta.stickies.title, open: false, minimized: false, maximized: false, minimizing: false, z: 14, x: 130, y: 58 },
   { id: "mines", title: appMeta.mines.title, open: false, minimized: false, maximized: false, minimizing: false, z: 15, x: 150, y: 48 },
+  { id: "lanaya", title: appMeta.lanaya.title, open: false, minimized: false, maximized: false, minimizing: false, z: 16, x: 140, y: 58 },
 ];
 
 const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 62 + Math.floor(index / 5) * 88, y: 62 + (index % 5) * 78 }])) as Record<AppId, { x: number; y: number }>;
@@ -152,6 +156,7 @@ function DesktopCore() {
   const { volume, setVolume } = useMusic();
   const [wifiOn, setWifiOn] = useState(true);
   const [focusOn, setFocusOn] = useState(true);
+  const [desktopMenu, setDesktopMenu] = useState<{ x: number; y: number } | null>(null);
   const draggedIcon = useRef<AppId | null>(null);
   const minimizeTimers = useRef<Partial<Record<AppId, number>>>({});
 
@@ -307,7 +312,7 @@ function DesktopCore() {
         </button>
       </section>
 
-      <section className="desktop" aria-label="Kassym portfolio desktop">
+      <section className="desktop" aria-label="Kassym portfolio desktop" onClick={() => setDesktopMenu(null)} onContextMenu={(event) => { if ((event.target as HTMLElement).closest(".mac-window,.dock,.control-center")) return; event.preventDefault(); setDesktopMenu({ x: event.clientX, y: event.clientY }); }}>
         <div className="brightness-shade" style={{ opacity: Math.max(0, (100 - brightness) / 125) }} aria-hidden="true" />
         <header className="menu-bar">
           <div className="menu-left">
@@ -389,6 +394,7 @@ function DesktopCore() {
           <div className="shipping-widget widget">
             <span>NOW SHIPPING</span>
             <strong>AI-assisted products<br />that survive production.</strong>
+            <button className="lanaya-widget-video" onClick={() => openWindow("lanaya")} aria-label="Chat with Lanaya AI"><video src="/lanaya-ai.mp4" autoPlay loop muted playsInline /><span><MessageCircleMore size={14} /> Chat with Lanaya</span></button>
             <div className="shipping-track"><i /></div>
             <small>PRODUCT · ENGINEERING · DELIVERY</small>
           </div>
@@ -528,6 +534,7 @@ function DesktopCore() {
               {item.id === "notebook" && <NotebookApp />}
               {item.id === "stickies" && <StickyNotesApp />}
               {item.id === "mines" && <MinesweeperApp />}
+              {item.id === "lanaya" && <LanayaChatApp />}
             </div>
           </section>
         ))}
@@ -544,6 +551,7 @@ function DesktopCore() {
         </nav>
 
         <div className="desktop-signature"><Sparkles size={12} /> KY/OS · BUILT END TO END</div>
+        {desktopMenu && <div className="desktop-context-menu" style={{ left: desktopMenu.x, top: desktopMenu.y }} onClick={(event) => event.stopPropagation()}><button onClick={() => { openWindow("files"); setDesktopMenu(null); }}><Folder size={14} /> New Finder Window</button><button onClick={() => { openWindow("files"); setDesktopMenu(null); }}>New Folder</button><hr /><button onClick={() => { setTheme("sky"); setDesktopMenu(null); }}>Change Wallpaper</button><button onClick={() => { setControlCenter(true); setDesktopMenu(null); }}>Display Settings…</button><hr /><button onClick={() => { openWindow("lanaya"); setDesktopMenu(null); }}><MessageCircleMore size={14} /> Ask Lanaya</button></div>}
       </section>
     </main>
   );

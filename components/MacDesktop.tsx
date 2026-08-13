@@ -3,10 +3,13 @@
 import Image from "next/image";
 import {
   BatteryFull,
+  Bomb,
+  BookOpen,
   BriefcaseBusiness,
   CloudSun,
   Code2,
   Command,
+  ContactRound,
   Crown,
   Cpu,
   Download,
@@ -25,6 +28,7 @@ import {
   Paintbrush,
   SlidersHorizontal,
   Sparkles,
+  StickyNote,
   Sun,
   TerminalSquare,
   UserRound,
@@ -35,11 +39,15 @@ import {
 import { FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import { projects } from "@/lib/projects";
 import ChessApp from "@/components/apps/ChessApp";
-import MusicApp from "@/components/apps/MusicApp";
+import MusicApp, { MusicWidget } from "@/components/apps/MusicApp";
+import { MusicProvider, useMusic } from "@/components/apps/MusicSystem";
 import PaintApp from "@/components/apps/PaintApp";
 import PhotosApp from "@/components/apps/PhotosApp";
+import MinesweeperApp from "@/components/apps/MinesweeperApp";
+import NotebookApp from "@/components/apps/NotebookApp";
+import StickyNotesApp from "@/components/apps/StickyNotesApp";
 
-type AppId = "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music";
+type AppId = "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music" | "notebook" | "stickies" | "mines";
 type ThemeId = "sky" | "midnight" | "sand";
 
 type DesktopWindow = {
@@ -60,11 +68,14 @@ const appMeta: Record<AppId, { title: string; label: string; icon: typeof Folder
   resume: { title: "Kassym — Résumé", label: "Résumé", icon: FileText, tone: "paper" },
   terminal: { title: "kassym@portfolio — zsh", label: "Terminal", icon: TerminalSquare, tone: "dark" },
   stack: { title: "System Profiler", label: "Tech Stack", icon: Cpu, tone: "orange" },
-  contact: { title: "New Message", label: "Contact", icon: Mail, tone: "green" },
+  contact: { title: "Contact Kassym", label: "Contacts", icon: ContactRound, tone: "green" },
   paint: { title: "KY Paint", label: "Paint", icon: Paintbrush, tone: "pink" },
   photos: { title: "Photos", label: "Photos", icon: Images, tone: "violet" },
   chess: { title: "Chess", label: "Chess", icon: Crown, tone: "chess" },
   music: { title: "Music — KY Mix", label: "Music", icon: Music, tone: "music" },
+  notebook: { title: "Notebook", label: "Notebook", icon: BookOpen, tone: "notebook" },
+  stickies: { title: "Sticky Notes", label: "Stickies", icon: StickyNote, tone: "sticky" },
+  mines: { title: "KY Mines", label: "Mines", icon: Bomb, tone: "mines" },
 };
 
 const initialWindows: DesktopWindow[] = [
@@ -78,9 +89,12 @@ const initialWindows: DesktopWindow[] = [
   { id: "photos", title: appMeta.photos.title, open: false, minimized: false, maximized: false, minimizing: false, z: 9, x: 290, y: 110 },
   { id: "chess", title: appMeta.chess.title, open: false, minimized: false, maximized: false, minimizing: false, z: 10, x: 360, y: 125 },
   { id: "music", title: appMeta.music.title, open: false, minimized: false, maximized: false, minimizing: false, z: 11, x: 400, y: 100 },
+  { id: "notebook", title: appMeta.notebook.title, open: false, minimized: false, maximized: false, minimizing: false, z: 12, x: 235, y: 90 },
+  { id: "stickies", title: appMeta.stickies.title, open: false, minimized: false, maximized: false, minimizing: false, z: 13, x: 315, y: 120 },
+  { id: "mines", title: appMeta.mines.title, open: false, minimized: false, maximized: false, minimizing: false, z: 14, x: 360, y: 90 },
 ];
 
-const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: index < 5 ? 68 : 160, y: 74 + (index % 5) * 92 }])) as Record<AppId, { x: number; y: number }>;
+const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 62 + Math.floor(index / 5) * 88, y: 62 + (index % 5) * 78 }])) as Record<AppId, { x: number; y: number }>;
 
 const stackGroups = [
   ["Interface", "TypeScript", "React", "Next.js", "Vue.js"],
@@ -91,11 +105,17 @@ const stackGroups = [
 ];
 
 const commands: Record<string, string[]> = {
-  help: ["Available commands: about, skills, projects, contact, clear"],
+  help: ["KY/OS commands:", "about · skills · projects · contact · socials · neofetch", "date · uptime · pwd · ls · cat resume.txt · fortune", "open <app> · theme <sky|midnight|sand> · echo <text> · clear"],
   about: ["Kassym Yermakhanbet", "Full-stack & AI product engineer · Astana, Kazakhstan", "Building clear products from complex operational workflows."],
   skills: ["TypeScript / React / Next.js", "Python / FastAPI / Go", "PostgreSQL / Redis / AWS", "RAG / LLM infrastructure / product engineering"],
   projects: ["01 Seven Hills Visual CMS", "02 ProposalFlow", "03 Olzhas Stroy", "04 Citation-grounded RAG", "Run the Projects app for the complete archive."],
   contact: ["honormorethangold@gmail.com", "github.com/KassieIII", "LinkedIn: kassym-yermakhanbet-635163235"],
+  socials: ["GitHub     github.com/KassieIII", "HuggingFace huggingface.co/KassieIII", "LinkedIn   kassym-yermakhanbet-635163235", "Upwork     ~01f07d973e8bc9cf88"],
+  pwd: ["/Users/kassym/portfolio"],
+  ls: ["Applications/  Projects/  resume.txt  skills.json  contact.vcf"],
+  "cat resume.txt": ["Kassym Yermakhanbet — Full-Stack & AI Product Engineer", "4+ years · SaaS · applied AI · production systems", "Open the Résumé app for the complete profile."],
+  neofetch: ["  KY/OS  1.2.0", "  Host   Astana Workstation", "  Stack  Next.js · Python · Go · AWS · RAG", "  Uptime Shipping useful systems since 2022", "  Theme  Violet Glass"],
+  fortune: ["The best interface is the one that makes a hard system feel obvious."],
 };
 
 function formatClock(date: Date | null, withSeconds = false) {
@@ -108,7 +128,9 @@ function formatClock(date: Date | null, withSeconds = false) {
   }).format(date);
 }
 
-export default function MacDesktop() {
+export default function MacDesktop() { return <MusicProvider><DesktopCore /></MusicProvider>; }
+
+function DesktopCore() {
   const [locked, setLocked] = useState(true);
   const [theme, setTheme] = useState<ThemeId>("sky");
   const [controlCenter, setControlCenter] = useState(false);
@@ -121,9 +143,9 @@ export default function MacDesktop() {
     "Type `help` to inspect available commands.",
   ]);
   const [iconPositions, setIconPositions] = useState(initialIconPositions);
-  const [weather, setWeather] = useState<{ temperature: number; wind: number } | null>(null);
+  const [weather, setWeather] = useState<Record<string, { temperature: number; wind: number }>>({});
   const [brightness, setBrightness] = useState(78);
-  const [volume, setVolume] = useState(48);
+  const { volume, setVolume } = useMusic();
   const [wifiOn, setWifiOn] = useState(true);
   const [focusOn, setFocusOn] = useState(true);
   const draggedIcon = useRef<AppId | null>(null);
@@ -140,10 +162,9 @@ export default function MacDesktop() {
   }, []);
 
   useEffect(() => {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=51.1694&longitude=71.4491&current=temperature_2m,wind_speed_10m&timezone=Asia%2FAlmaty")
-      .then((response) => response.json())
-      .then((data) => setWeather({ temperature: Math.round(data.current.temperature_2m), wind: Math.round(data.current.wind_speed_10m) }))
-      .catch(() => setWeather(null));
+    const cities = [{ name: "Astana", lat: 51.1694, lon: 71.4491 }, { name: "Berlin", lat: 52.52, lon: 13.405 }, { name: "Tokyo", lat: 35.6762, lon: 139.6503 }, { name: "New York", lat: 40.7128, lon: -74.006 }];
+    Promise.all(cities.map(async (city) => { const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,wind_speed_10m&timezone=auto`); const data = await response.json(); return [city.name, { temperature: Math.round(data.current.temperature_2m), wind: Math.round(data.current.wind_speed_10m) }] as const; }))
+      .then((items) => setWeather(Object.fromEntries(items))).catch(() => setWeather({}));
   }, []);
 
   useEffect(() => {
@@ -174,7 +195,7 @@ export default function MacDesktop() {
 
   function minimizeWindow(id: AppId) {
     setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: true } : item));
-    window.setTimeout(() => setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: false, minimized: true } : item)), 520);
+    window.setTimeout(() => setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: false, minimized: true } : item)), 720);
   }
 
   function maximizeWindow(id: AppId) {
@@ -229,19 +250,33 @@ export default function MacDesktop() {
 
   function runCommand(event: FormEvent) {
     event.preventDefault();
-    const command = terminalInput.trim().toLowerCase();
+    const raw = terminalInput.trim();
+    const command = raw.toLowerCase();
     if (!command) return;
     if (command === "clear") {
       setTerminalLines([]);
+    } else if (command === "date") {
+      setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, new Date().toString()]);
+    } else if (command === "uptime") {
+      setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `up ${Math.max(1, Math.floor(performance.now() / 60000))} minutes · load average 0.42 0.31 0.26`]);
+    } else if (command.startsWith("echo ")) {
+      setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, raw.slice(5)]);
+    } else if (command.startsWith("open ")) {
+      const target = command.slice(5) as AppId;
+      if (target in appMeta) { openWindow(target); setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `Opening ${appMeta[target].title}…`]); }
+      else setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `open: application not found: ${target}`]);
+    } else if (command.startsWith("theme ")) {
+      const next = command.slice(6) as ThemeId;
+      if (["sky", "midnight", "sand"].includes(next)) { setTheme(next); setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `Theme changed to ${next}.`]); }
+      else setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, "Available themes: sky, midnight, sand"]);
     } else {
-      setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${command}`, ...(commands[command] ?? [`zsh: command not found: ${command}`])]);
+      setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, ...(commands[command] ?? [`zsh: command not found: ${command}`])]);
     }
     setTerminalInput("");
   }
 
   function unlock() {
     setLocked(false);
-    window.setTimeout(() => openWindow("about"), 420);
   }
 
   return (
@@ -260,6 +295,7 @@ export default function MacDesktop() {
       </section>
 
       <section className="desktop" aria-label="Kassym portfolio desktop">
+        <div className="brightness-shade" style={{ opacity: Math.max(0, (100 - brightness) / 125) }} aria-hidden="true" />
         <header className="menu-bar">
           <div className="menu-left">
             <button className="menu-mark" onClick={() => setLocked(true)} aria-label="Lock portfolio"><Command size={15} /></button>
@@ -321,6 +357,8 @@ export default function MacDesktop() {
           <button onClick={() => openWindow("contact")} aria-label="Open contact"><Mail size={15} /></button>
         </nav>
 
+        <MusicWidget onOpen={() => openWindow("music")} />
+
         <aside className="widget-stack" aria-label="Desktop widgets">
           <div className="theme-widget widget">
             <span>WALLPAPER</span>
@@ -331,10 +369,9 @@ export default function MacDesktop() {
               ))}
             </div>
           </div>
-          <div className="status-widget widget">
-            <div><span>ASTANA NOW</span><strong>{weather ? `${weather.temperature}°` : formatClock(now, true)}</strong></div>
-            <div className="status-location"><CloudSun size={14} /> {weather ? `Wind ${weather.wind} km/h` : "Astana, Kazakhstan"}</div>
-            <div className="availability"><span className="online-dot" /> Open for select product work</div>
+          <div className="world-weather widget">
+            <header><span>WORLD WEATHER</span><CloudSun size={16} /></header>
+            <div>{["Astana", "Berlin", "Tokyo", "New York"].map((city) => <article key={city}><span>{city}</span><strong>{weather[city] ? `${weather[city].temperature}°` : "--°"}</strong><small>{weather[city] ? `${weather[city].wind} km/h` : "Updating"}</small></article>)}</div>
           </div>
           <div className="shipping-widget widget">
             <span>NOW SHIPPING</span>
@@ -440,7 +477,7 @@ export default function MacDesktop() {
                   <div className="terminal-output">
                     {terminalLines.map((line, index) => <div key={`${line}-${index}`}>{line}</div>)}
                   </div>
-                  <form onSubmit={runCommand}><label htmlFor="terminal-command">kassym@portfolio ~ %</label><input id="terminal-command" autoComplete="off" value={terminalInput} onChange={(event) => setTerminalInput(event.target.value)} /></form>
+                  <form onSubmit={runCommand}><label htmlFor="terminal-command">kassym@portfolio ~ %</label><input id="terminal-command" autoComplete="off" value={terminalInput} onChange={(event) => setTerminalInput(event.target.value)} /><button type="submit">Run</button></form>
                 </div>
               )}
 
@@ -473,6 +510,9 @@ export default function MacDesktop() {
               {item.id === "photos" && <PhotosApp />}
               {item.id === "chess" && <ChessApp />}
               {item.id === "music" && <MusicApp />}
+              {item.id === "notebook" && <NotebookApp />}
+              {item.id === "stickies" && <StickyNotesApp />}
+              {item.id === "mines" && <MinesweeperApp />}
             </div>
           </section>
         ))}

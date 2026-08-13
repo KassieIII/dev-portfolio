@@ -1,20 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-
-const photos = [
-  { src: "/profile-kassym.png", label: "Kassym" },
-  { src: "/wallpapers/lanaya.webp", label: "Lanaya" },
-  { src: "/wallpapers/hiyuki.jpeg", label: "Hiyuki" },
-  { src: "/project-previews/seven-hills.png", label: "Seven Hills" },
-  { src: "/project-previews/proposalflow.png", label: "ProposalFlow" },
-  { src: "/project-previews/rag-docs.png", label: "RAG Docs" },
-  { src: "/project-previews/geotracker.png", label: "GeoTracker" },
-  { src: "/project-previews/olzhas-stroy.png", label: "Olzhas Stroy" },
-];
-
-export default function PhotosApp() {
-  const [active, setActive] = useState(0);
-  return <div className="photos-app"><div className="photo-stage"><Image src={photos[active].src} alt={photos[active].label} fill sizes="80vw" /></div><div className="photo-strip">{photos.map((photo, index) => <button className={index === active ? "active" : ""} key={photo.src} onClick={() => setActive(index)} aria-label={`View ${photo.label}`}><Image src={photo.src} alt="" fill sizes="100px" /><span>{photo.label}</span></button>)}</div></div>;
-}
+import { Grid2X2, Heart, Images, Maximize, Play } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+const photos=[{src:"/profile-kassym.png",label:"Kassym",album:"Portraits"},{src:"/wallpapers/lanaya.webp",label:"Lanaya",album:"Wallpapers"},{src:"/wallpapers/hiyuki.jpeg",label:"Hiyuki",album:"Wallpapers"},{src:"/project-previews/seven-hills.png",label:"Seven Hills",album:"Projects"},{src:"/project-previews/proposalflow.png",label:"ProposalFlow",album:"Projects"},{src:"/project-previews/rag-docs.png",label:"RAG Docs",album:"Projects"},{src:"/project-previews/geotracker.png",label:"GeoTracker",album:"Projects"},{src:"/project-previews/olzhas-stroy.png",label:"Olzhas Stroy",album:"Projects"}];
+export default function PhotosApp(){const[album,setAlbum]=useState("All Photos"),[active,setActive]=useState(0),[grid,setGrid]=useState(true),[favorite,setFavorite]=useState<string[]>([]),[slideshow,setSlideshow]=useState(false);const visible=useMemo(()=>album==="All Photos"?photos:album==="Favorites"?photos.filter(photo=>favorite.includes(photo.src)):photos.filter(photo=>photo.album===album),[album,favorite]);useEffect(()=>{if(!slideshow||!visible.length)return;const timer=window.setInterval(()=>setActive(index=>(index+1)%visible.length),2800);return()=>window.clearInterval(timer)},[slideshow,visible.length]);useEffect(()=>setActive(0),[album]);const photo=visible[active]??photos[0];return <div className="photos-app"><aside><strong>Photos</strong>{["All Photos","Favorites","Portraits","Wallpapers","Projects"].map(item=><button className={album===item?"active":""} onClick={()=>setAlbum(item)} key={item}><Images size={14}/>{item}<small>{item==="All Photos"?photos.length:item==="Favorites"?favorite.length:photos.filter(photo=>photo.album===item).length}</small></button>)}</aside><main><header><div><strong>{album}</strong><small>{visible.length} items</small></div><div><button className={grid?"active":""} onClick={()=>setGrid(value=>!value)}><Grid2X2 size={15}/></button><button className={slideshow?"active":""} onClick={()=>{setGrid(false);setSlideshow(value=>!value)}}><Play size={15}/></button></div></header>{grid?<div className="photo-grid">{visible.map((item,index)=><button onClick={()=>{setActive(index);setGrid(false)}} key={item.src}><Image src={item.src} alt={item.label} fill sizes="30vw"/><span>{item.label}</span></button>)}</div>:<div className="photo-viewer"><div className="photo-stage"><Image src={photo.src} alt={photo.label} fill sizes="80vw"/></div><footer><div><strong>{photo.label}</strong><small>{photo.album} · {active+1} of {visible.length}</small></div><button className={favorite.includes(photo.src)?"active":""} onClick={()=>setFavorite(items=>items.includes(photo.src)?items.filter(item=>item!==photo.src):[...items,photo.src])}><Heart size={17}/></button><button onClick={()=>document.documentElement.requestFullscreen?.()}><Maximize size={16}/></button></footer><div className="photo-strip">{visible.map((item,index)=><button className={index===active?"active":""} onClick={()=>setActive(index)} key={item.src}><Image src={item.src} alt="" fill sizes="80px"/></button>)}</div></div>}</main></div>}

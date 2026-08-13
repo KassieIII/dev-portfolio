@@ -3,10 +3,11 @@
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
 const playlist = [
-  "Die With A Smile Lady Gaga Bruno Mars", "BIRDS OF A FEATHER Billie Eilish", "Blinding Lights The Weeknd", "Espresso Sabrina Carpenter", "As It Was Harry Styles",
-  "Levitating Dua Lipa", "Starboy The Weeknd Daft Punk", "Flowers Miley Cyrus", "Viva La Vida Coldplay", "Lose Control Teddy Swims",
-  "APT ROSÉ Bruno Mars", "Supernova aespa", "Ditto NewJeans", "Idol YOASOBI", "Bling-Bang-Bang-Born Creepy Nuts", "Shinunoga E-Wa Fujii Kaze",
-  "Last Dance Wu Bai", "The Eve Jay Chou", "Dernière danse Indila", "Alors on danse Stromae", "Papaoutai Stromae", "Je te laisserai des mots Patrick Watson",
+  { term: "Die With A Smile Lady Gaga Bruno Mars", country: "us" }, { term: "BIRDS OF A FEATHER Billie Eilish", country: "us" }, { term: "Blinding Lights The Weeknd", country: "us" }, { term: "Espresso Sabrina Carpenter", country: "us" }, { term: "Viva La Vida Coldplay", country: "us" },
+  { term: "Mayonaka no Door Stay With Me Miki Matsubara", country: "jp" }, { term: "Plastic Love Mariya Takeuchi", country: "jp" }, { term: "4:00 A.M. Taeko Onuki", country: "jp" }, { term: "Remember Summer Days Anri", country: "jp" }, { term: "Midnight Pretenders Tomoko Aran", country: "jp" }, { term: "Telephone Number Junko Ohashi", country: "jp" }, { term: "Idol YOASOBI", country: "jp" }, { term: "Bling-Bang-Bang-Born Creepy Nuts", country: "jp" }, { term: "Shinunoga E-Wa Fujii Kaze", country: "jp" },
+  { term: "APT ROSÉ Bruno Mars", country: "kr" }, { term: "Supernova aespa", country: "kr" }, { term: "Ditto NewJeans", country: "kr" }, { term: "Dynamite BTS", country: "kr" }, { term: "Magnetic ILLIT", country: "kr" }, { term: "Love Lee AKMU", country: "kr" }, { term: "Pierrot Smiles at Us Kim Wan Sun", country: "kr" },
+  { term: "The Moon Represents My Heart Teresa Teng", country: "cn" }, { term: "Red Bean Faye Wong", country: "cn" }, { term: "Fairy Tale Michael Wong", country: "cn" }, { term: "Little Lucky Hebe Tien", country: "cn" }, { term: "Actor Joker Xue", country: "cn" }, { term: "The One and Only Leehom Wang", country: "cn" }, { term: "Last Dance Wu Bai", country: "cn" },
+  { term: "Dernière danse Indila", country: "fr" }, { term: "Alors on danse Stromae", country: "fr" }, { term: "Papaoutai Stromae", country: "fr" }, { term: "Je te laisserai des mots Patrick Watson", country: "fr" },
 ];
 
 export type Track = { trackId: number; trackName: string; artistName: string; artworkUrl100: string; previewUrl?: string; trackViewUrl: string };
@@ -22,9 +23,9 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const [volume, setVolume] = useState(48);
 
   useEffect(() => {
-    Promise.all(playlist.map(async (term) => {
+    Promise.all(playlist.map(async ({ term, country }) => {
       try {
-        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=1&country=us`);
+        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=3&country=${country}`);
         const data = await response.json();
         return data.results?.find((item: Track) => item.previewUrl) as Track | undefined;
       } catch { return undefined; }

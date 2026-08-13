@@ -17,6 +17,7 @@ import {
   FileText,
   Folder,
   Globe2,
+  HardDrive,
   Images,
   Mail,
   MapPin,
@@ -46,8 +47,9 @@ import PhotosApp from "@/components/apps/PhotosApp";
 import MinesweeperApp from "@/components/apps/MinesweeperApp";
 import NotebookApp from "@/components/apps/NotebookApp";
 import StickyNotesApp from "@/components/apps/StickyNotesApp";
+import FilesApp from "@/components/apps/FilesApp";
 
-type AppId = "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music" | "notebook" | "stickies" | "mines";
+type AppId = "files" | "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music" | "notebook" | "stickies" | "mines";
 type ThemeId = "sky" | "midnight" | "sand";
 
 type DesktopWindow = {
@@ -63,6 +65,7 @@ type DesktopWindow = {
 };
 
 const appMeta: Record<AppId, { title: string; label: string; icon: typeof Folder; tone: string }> = {
+  files: { title: "KY Drive", label: "Files", icon: HardDrive, tone: "files" },
   work: { title: "Selected Work", label: "Projects", icon: Folder, tone: "blue" },
   about: { title: "About Kassym", label: "About Me", icon: UserRound, tone: "violet" },
   resume: { title: "Kassym — Résumé", label: "Résumé", icon: FileText, tone: "paper" },
@@ -79,19 +82,20 @@ const appMeta: Record<AppId, { title: string; label: string; icon: typeof Folder
 };
 
 const initialWindows: DesktopWindow[] = [
-  { id: "work", title: appMeta.work.title, open: false, minimized: false, maximized: true, minimizing: false, z: 2, x: 122, y: 104 },
-  { id: "about", title: appMeta.about.title, open: false, minimized: false, maximized: true, minimizing: false, z: 3, x: 250, y: 126 },
-  { id: "resume", title: appMeta.resume.title, open: false, minimized: false, maximized: true, minimizing: false, z: 4, x: 310, y: 90 },
-  { id: "terminal", title: appMeta.terminal.title, open: false, minimized: false, maximized: true, minimizing: false, z: 5, x: 205, y: 205 },
-  { id: "stack", title: appMeta.stack.title, open: false, minimized: false, maximized: true, minimizing: false, z: 6, x: 375, y: 158 },
-  { id: "contact", title: appMeta.contact.title, open: false, minimized: false, maximized: true, minimizing: false, z: 7, x: 430, y: 118 },
-  { id: "paint", title: appMeta.paint.title, open: false, minimized: false, maximized: true, minimizing: false, z: 8, x: 170, y: 95 },
-  { id: "photos", title: appMeta.photos.title, open: false, minimized: false, maximized: true, minimizing: false, z: 9, x: 290, y: 110 },
-  { id: "chess", title: appMeta.chess.title, open: false, minimized: false, maximized: true, minimizing: false, z: 10, x: 360, y: 125 },
-  { id: "music", title: appMeta.music.title, open: false, minimized: false, maximized: true, minimizing: false, z: 11, x: 400, y: 100 },
-  { id: "notebook", title: appMeta.notebook.title, open: false, minimized: false, maximized: true, minimizing: false, z: 12, x: 235, y: 90 },
-  { id: "stickies", title: appMeta.stickies.title, open: false, minimized: false, maximized: true, minimizing: false, z: 13, x: 315, y: 120 },
-  { id: "mines", title: appMeta.mines.title, open: false, minimized: false, maximized: true, minimizing: false, z: 14, x: 360, y: 90 },
+  { id: "files", title: appMeta.files.title, open: false, minimized: false, maximized: false, minimizing: false, z: 2, x: 70, y: 52 },
+  { id: "work", title: appMeta.work.title, open: false, minimized: false, maximized: false, minimizing: false, z: 3, x: 70, y: 52 },
+  { id: "about", title: appMeta.about.title, open: false, minimized: false, maximized: false, minimizing: false, z: 4, x: 90, y: 58 },
+  { id: "resume", title: appMeta.resume.title, open: false, minimized: false, maximized: false, minimizing: false, z: 5, x: 120, y: 48 },
+  { id: "terminal", title: appMeta.terminal.title, open: false, minimized: false, maximized: false, minimizing: false, z: 6, x: 130, y: 90 },
+  { id: "stack", title: appMeta.stack.title, open: false, minimized: false, maximized: false, minimizing: false, z: 7, x: 110, y: 62 },
+  { id: "contact", title: appMeta.contact.title, open: false, minimized: false, maximized: false, minimizing: false, z: 8, x: 150, y: 72 },
+  { id: "paint", title: appMeta.paint.title, open: false, minimized: false, maximized: false, minimizing: false, z: 9, x: 70, y: 48 },
+  { id: "photos", title: appMeta.photos.title, open: false, minimized: false, maximized: false, minimizing: false, z: 10, x: 80, y: 50 },
+  { id: "chess", title: appMeta.chess.title, open: false, minimized: false, maximized: false, minimizing: false, z: 11, x: 90, y: 48 },
+  { id: "music", title: appMeta.music.title, open: false, minimized: false, maximized: false, minimizing: false, z: 12, x: 110, y: 54 },
+  { id: "notebook", title: appMeta.notebook.title, open: false, minimized: false, maximized: false, minimizing: false, z: 13, x: 120, y: 58 },
+  { id: "stickies", title: appMeta.stickies.title, open: false, minimized: false, maximized: false, minimizing: false, z: 14, x: 130, y: 58 },
+  { id: "mines", title: appMeta.mines.title, open: false, minimized: false, maximized: false, minimizing: false, z: 15, x: 150, y: 48 },
 ];
 
 const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 62 + Math.floor(index / 5) * 88, y: 62 + (index % 5) * 78 }])) as Record<AppId, { x: number; y: number }>;
@@ -187,7 +191,7 @@ function DesktopCore() {
   function openWindow(id: AppId) {
     if (minimizeTimers.current[id]) window.clearTimeout(minimizeTimers.current[id]);
     setWindows((items) => items.map((item) => item.id === id
-      ? { ...item, open: true, minimized: false, minimizing: false, maximized: true, z: topZ + 1 }
+      ? { ...item, open: true, minimized: false, minimizing: false, maximized: item.open ? item.maximized : false, z: topZ + 1 }
       : item));
   }
 
@@ -204,7 +208,7 @@ function DesktopCore() {
 
   function minimizeWindow(id: AppId) {
     setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: true } : item));
-    minimizeTimers.current[id] = window.setTimeout(() => finishMinimize(id), 560);
+    minimizeTimers.current[id] = window.setTimeout(() => finishMinimize(id), 720);
   }
 
   function maximizeWindow(id: AppId) {
@@ -517,6 +521,7 @@ function DesktopCore() {
               )}
 
               {item.id === "paint" && <PaintApp />}
+              {item.id === "files" && <FilesApp />}
               {item.id === "photos" && <PhotosApp />}
               {item.id === "chess" && <ChessApp />}
               {item.id === "music" && <MusicApp />}

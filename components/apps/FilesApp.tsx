@@ -1,0 +1,39 @@
+"use client";
+
+import { ChevronRight, File, FilePlus2, Folder, FolderPlus, Grid2X2, HardDrive, Info, List, Search, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+
+type FileNode = { id: string; parent: string | null; name: string; type: "folder" | "file"; content?: string; color?: string; locked?: boolean; created: number };
+const rootId = "root";
+const starter: FileNode[] = [
+  { id: "documents", parent: rootId, name: "Documents", type: "folder", color: "#8e55d2", created: 1 },
+  { id: "projects", parent: rootId, name: "Projects", type: "folder", color: "#6d8cff", created: 2 },
+  { id: "downloads", parent: rootId, name: "Downloads", type: "folder", color: "#44b889", created: 3 },
+  { id: "readme", parent: rootId, name: "Welcome to KY OS.txt", type: "file", content: "This is a local portfolio file system. Create folders, write files and customise folders in Get Info.", created: 4 },
+  { id: "product", parent: "documents", name: "Product ideas.md", type: "file", content: "# Product ideas\n\nBuild clear systems for difficult operational workflows.", created: 5 },
+  { id: "visual-cms", parent: "projects", name: "Seven Hills Visual CMS", type: "folder", color: "#bd6cff", created: 6 },
+];
+const folderColors = ["#8e55d2", "#6d8cff", "#44b889", "#ec699e", "#ec9c45", "#7c8797"];
+
+export default function FilesApp() {
+  const [nodes, setNodes] = useState<FileNode[]>(starter), [current, setCurrent] = useState(rootId), [selected, setSelected] = useState<string | null>(null), [view, setView] = useState<"grid" | "list">("grid"), [query, setQuery] = useState(""), [showInfo, setShowInfo] = useState(true);
+  useEffect(() => { try { const saved = localStorage.getItem("ky-filesystem"); if (saved) setNodes(JSON.parse(saved)); } catch {} }, []);
+  useEffect(() => { localStorage.setItem("ky-filesystem", JSON.stringify(nodes)); }, [nodes]);
+  const items = useMemo(() => nodes.filter((node) => node.parent === current && node.name.toLowerCase().includes(query.toLowerCase())).sort((a, b) => a.type === b.type ? a.name.localeCompare(b.name) : a.type === "folder" ? -1 : 1), [nodes, current, query]);
+  const selectedNode = nodes.find((node) => node.id === selected);
+  const breadcrumbs = useMemo(() => { const path: FileNode[] = []; let id = current; while (id !== rootId) { const node = nodes.find((item) => item.id === id); if (!node) break; path.unshift(node); id = node.parent ?? rootId; } return path; }, [current, nodes]);
+  function create(type: "folder" | "file") { const id = `${type}-${Date.now()}`; const number = nodes.filter((node) => node.parent === current && node.type === type).length + 1; const node: FileNode = { id, parent: current, name: type === "folder" ? `New Folder ${number}` : `Untitled ${number}.txt`, type, color: folderColors[number % folderColors.length], content: type === "file" ? "" : undefined, created: Date.now() }; setNodes((items) => [...items, node]); setSelected(id); setShowInfo(true); }
+  function update(patch: Partial<FileNode>) { if (!selected) return; setNodes((items) => items.map((node) => node.id === selected ? { ...node, ...patch } : node)); }
+  function descendants(id: string): string[] { const children = nodes.filter((node) => node.parent === id); return [id, ...children.flatMap((node) => descendants(node.id))]; }
+  function remove() { if (!selectedNode || selectedNode.locked) return; const ids = new Set(descendants(selectedNode.id)); setNodes((items) => items.filter((node) => !ids.has(node.id))); setSelected(null); }
+  function open(node: FileNode) { setSelected(node.id); if (node.type === "folder") { setCurrent(node.id); setSelected(null); } else setShowInfo(true); }
+
+  return <div className={`files-app view-${view} ${showInfo ? "show-info" : ""}`} onContextMenu={(event) => { if ((event.target as HTMLElement).closest("button,input,textarea")) return; event.preventDefault(); create("folder"); }}>
+    <aside className="files-sidebar"><strong>Favorites</strong><button className={current === rootId ? "active" : ""} onClick={() => { setCurrent(rootId); setSelected(null); }}><HardDrive size={15} /> KY Drive</button>{starter.filter((node) => node.parent === rootId && node.type === "folder").map((node) => <button className={current === node.id ? "active" : ""} key={node.id} onClick={() => { setCurrent(node.id); setSelected(null); }}><Folder size={15} fill={node.color} /> {node.name}</button>)}<small>{nodes.length} items · stored locally</small></aside>
+    <main className="files-main">
+      <header className="files-toolbar"><div className="file-actions"><button onClick={() => create("folder")} title="New folder"><FolderPlus size={16} /></button><button onClick={() => create("file")} title="New file"><FilePlus2 size={16} /></button><button onClick={remove} disabled={!selectedNode || selectedNode.locked} title="Move to Trash"><Trash2 size={15} /></button></div><nav><button onClick={() => { setCurrent(rootId); setSelected(null); }}>KY Drive</button>{breadcrumbs.map((node) => <span key={node.id}><ChevronRight size={12} /><button onClick={() => { setCurrent(node.id); setSelected(null); }}>{node.name}</button></span>)}</nav><label><Search size={13} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search" /></label><div className="view-actions"><button className={view === "grid" ? "active" : ""} onClick={() => setView("grid")}><Grid2X2 size={15} /></button><button className={view === "list" ? "active" : ""} onClick={() => setView("list")}><List size={15} /></button><button className={showInfo ? "active" : ""} onClick={() => setShowInfo((value) => !value)}><Info size={15} /></button></div></header>
+      <div className="files-content">{items.length ? items.map((node) => <button className={selected === node.id ? "selected" : ""} key={node.id} onClick={() => setSelected(node.id)} onDoubleClick={() => open(node)}><span className="file-icon">{node.type === "folder" ? <Folder size={48} fill={node.color ?? folderColors[0]} /> : <File size={44} fill="#f8f5fb" />}</span><span><strong>{node.name}</strong><small>{node.type === "folder" ? `${nodes.filter((item) => item.parent === node.id).length} items` : `${node.content?.length ?? 0} characters`}</small></span>{node.locked && <em>Locked</em>}</button>) : <div className="files-empty"><Folder size={42} /><strong>This folder is empty</strong><span>Create a folder or text file from the toolbar.</span></div>}</div>
+    </main>
+    {showInfo && <aside className="file-inspector">{selectedNode ? <><div className="inspector-icon">{selectedNode.type === "folder" ? <Folder size={58} fill={selectedNode.color} /> : <File size={54} />}</div><label>Name<input value={selectedNode.name} onChange={(event) => update({ name: event.target.value })} /></label><div className="info-row"><span>Kind</span><strong>{selectedNode.type === "folder" ? "Folder" : "Text document"}</strong></div><div className="info-row"><span>Created</span><strong>{new Date(selectedNode.created).toLocaleDateString()}</strong></div>{selectedNode.type === "folder" ? <><label>Folder colour<div className="folder-colors">{folderColors.map((color) => <button aria-label={`Use ${color}`} className={selectedNode.color === color ? "active" : ""} key={color} style={{ background: color }} onClick={() => update({ color })} />)}</div></label><label className="lock-setting"><input type="checkbox" checked={!!selectedNode.locked} onChange={(event) => update({ locked: event.target.checked })} /> Locked</label></> : <label className="file-editor">Contents<textarea value={selectedNode.content ?? ""} onChange={(event) => update({ content: event.target.value })} /></label>}</> : <div className="no-selection"><Info size={32} /><strong>Get Info</strong><span>Select a file or folder to inspect and customise it.</span></div>}</aside>}
+  </div>;
+}

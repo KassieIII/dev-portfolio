@@ -24,7 +24,6 @@ import {
   Maximize2,
   Minimize2,
   Minus,
-  Moon,
   Music,
   MessageCircleMore,
   Paintbrush,
@@ -49,10 +48,10 @@ import MinesweeperApp from "@/components/apps/MinesweeperApp";
 import NotebookApp from "@/components/apps/NotebookApp";
 import StickyNotesApp from "@/components/apps/StickyNotesApp";
 import FilesApp from "@/components/apps/FilesApp";
-import LanayaChatApp from "@/components/apps/LanayaChatApp";
+import AssistantChatApp from "@/components/apps/AssistantChatApp";
+import { CharacterId, characterOrder, characters } from "@/lib/characters";
 
 type AppId = "files" | "work" | "about" | "resume" | "terminal" | "stack" | "contact" | "paint" | "photos" | "chess" | "music" | "notebook" | "stickies" | "mines" | "lanaya";
-type ThemeId = "sky" | "midnight" | "sand";
 
 type DesktopWindow = {
   id: AppId;
@@ -113,7 +112,7 @@ const stackGroups = [
 ];
 
 const commands: Record<string, string[]> = {
-  help: ["KY/OS commands:", "about · skills · projects · contact · socials · neofetch", "date · uptime · pwd · ls · cat resume.txt · fortune", "open <app> · theme <sky|midnight|sand> · echo <text> · clear"],
+  help: ["KY/OS commands:", "about · skills · projects · contact · socials · neofetch", "date · uptime · pwd · ls · cat resume.txt · fortune", "open <app> · theme <lanaya|hiyuki|kurisu> · echo <text> · clear"],
   about: ["Kassym Yermakhanbet", "Full-stack & AI product engineer · Astana, Kazakhstan", "Building clear products from complex operational workflows."],
   skills: ["TypeScript / React / Next.js", "Python / FastAPI / Go", "PostgreSQL / Redis / AWS", "RAG / LLM infrastructure / product engineering"],
   projects: ["01 Seven Hills Visual CMS", "02 ProposalFlow", "03 Olzhas Stroy", "04 Citation-grounded RAG", "Run the Projects app for the complete archive."],
@@ -136,11 +135,18 @@ function formatClock(date: Date | null, withSeconds = false) {
   }).format(date);
 }
 
+function CharacterMedia({ character, alt = "" }: { character: CharacterId; alt?: string }) {
+  const profile = characters[character];
+  return profile.mediaType === "video"
+    ? <video src={profile.media} autoPlay loop muted playsInline aria-label={alt} />
+    : <img src={profile.media} alt={alt} />;
+}
+
 export default function MacDesktop() { return <MusicProvider><DesktopCore /></MusicProvider>; }
 
 function DesktopCore() {
   const [locked, setLocked] = useState(true);
-  const [theme, setTheme] = useState<ThemeId>("sky");
+  const [character, setCharacter] = useState<CharacterId>("lanaya");
   const [controlCenter, setControlCenter] = useState(false);
   const [now, setNow] = useState<Date | null>(null);
   const [windows, setWindows] = useState(initialWindows);
@@ -161,6 +167,7 @@ function DesktopCore() {
   const minimizeTimers = useRef<Partial<Record<AppId, number>>>({});
 
   const visibleProjects = projects.slice(0, 6);
+  const profile = characters[character];
   const selectedProject = projects.find((project) => project.slug === activeProject) ?? projects[0];
   const topZ = useMemo(() => Math.max(...windows.map((window) => window.z), 10), [windows]);
   const activeApp = useMemo(() => [...windows].filter((item) => item.open && !item.minimized).sort((a, b) => b.z - a.z)[0], [windows]);
@@ -284,9 +291,9 @@ function DesktopCore() {
       if (target in appMeta) { openWindow(target); setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `Opening ${appMeta[target].title}…`]); }
       else setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `open: application not found: ${target}`]);
     } else if (command.startsWith("theme ")) {
-      const next = command.slice(6) as ThemeId;
-      if (["sky", "midnight", "sand"].includes(next)) { setTheme(next); setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `Theme changed to ${next}.`]); }
-      else setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, "Available themes: sky, midnight, sand"]);
+      const next = command.slice(6) as CharacterId;
+      if (characterOrder.includes(next)) { setCharacter(next); setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, `Environment changed to ${characters[next].name}.`]); }
+      else setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, "Available environments: lanaya, hiyuki, kurisu"]);
     } else {
       setTerminalLines((lines) => [...lines, `kassym@portfolio ~ % ${raw}`, ...(commands[command] ?? [`zsh: command not found: ${command}`])]);
     }
@@ -298,7 +305,7 @@ function DesktopCore() {
   }
 
   return (
-    <main className={`mac-shell theme-${theme}`}>
+    <main className={`mac-shell character-${character}`}>
       <section className={`lock-screen ${locked ? "is-visible" : ""}`} aria-hidden={!locked}>
         <button className="lock-hitarea" onClick={unlock} aria-label="Unlock Kassym's portfolio">
           <div className="lock-date">{now?.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) ?? "Loading"}</div>
@@ -346,7 +353,7 @@ function DesktopCore() {
             </div>
             <label className="control-slider"><Sun size={15} /><input aria-label="Brightness" type="range" min="20" max="100" value={brightness} onChange={(event) => setBrightness(Number(event.target.value))} style={{ backgroundSize: `${brightness}% 100%` }} /></label>
             <label className="control-slider"><Volume2 size={15} /><input aria-label="Volume" type="range" min="0" max="100" value={volume} onChange={(event) => setVolume(Number(event.target.value))} style={{ backgroundSize: `${volume}% 100%` }} /></label>
-            <button className="control-theme" onClick={() => setTheme(theme === "midnight" ? "sky" : "midnight")}><Moon size={15} /> Toggle appearance</button>
+            <button className="control-theme" onClick={() => setCharacter(characterOrder[(characterOrder.indexOf(character) + 1) % characterOrder.length])}><Sparkles size={15} /> Switch character environment</button>
           </aside>
         )}
 
@@ -358,11 +365,12 @@ function DesktopCore() {
         <div className="desktop-icons" aria-label="Draggable desktop applications">
           {(Object.keys(appMeta) as AppId[]).map((id) => {
             const app = appMeta[id];
+            const label = id === "lanaya" ? `${profile.name} AI` : app.label;
             const Icon = app.icon;
             return (
-              <button key={id} className="desktop-icon" style={{ transform: `translate3d(${iconPositions[id].x}px, ${iconPositions[id].y}px, 0)` }} onPointerDown={(event) => startIconDrag(event, id)} onClick={() => { if (draggedIcon.current !== id) openWindow(id); }} aria-label={`Open or drag ${app.label}`}>
+              <button key={id} className="desktop-icon" style={{ transform: `translate3d(${iconPositions[id].x}px, ${iconPositions[id].y}px, 0)` }} onPointerDown={(event) => startIconDrag(event, id)} onClick={() => { if (draggedIcon.current !== id) openWindow(id); }} aria-label={`Open or drag ${label}`}>
                 <span className={`app-icon app-${app.tone}`}><Icon size={32} strokeWidth={1.6} /></span>
-                <span>{app.label}</span>
+                <span>{label}</span>
               </button>
             );
           })}
@@ -380,10 +388,10 @@ function DesktopCore() {
         <aside className="widget-stack" aria-label="Desktop widgets">
           <div className="theme-widget widget">
             <span>WALLPAPER</span>
-            <strong>Choose a signal</strong>
+            <strong>{profile.name} environment</strong>
             <div>
-              {(["sky", "midnight", "sand"] as ThemeId[]).map((item) => (
-                <button key={item} className={`theme-dot theme-${item} ${theme === item ? "active" : ""}`} onClick={() => setTheme(item)} aria-label={`Use ${item} theme`} />
+              {characterOrder.map((item) => (
+                <button key={item} className={`theme-dot character-dot-${item} ${character === item ? "active" : ""}`} onClick={() => setCharacter(item)} aria-label={`Use ${characters[item].name} wallpaper and assistant`} title={characters[item].name} />
               ))}
             </div>
           </div>
@@ -394,7 +402,7 @@ function DesktopCore() {
           <div className="shipping-widget widget">
             <span>NOW SHIPPING</span>
             <strong>AI-assisted products<br />that survive production.</strong>
-            <button className="lanaya-widget-video" onClick={() => openWindow("lanaya")} aria-label="Chat with Lanaya AI"><video src="/lanaya-ai.mp4" autoPlay loop muted playsInline /><span><MessageCircleMore size={14} /> Chat with Lanaya</span></button>
+            <button className="lanaya-widget-video" onClick={() => openWindow("lanaya")} aria-label={`Chat with ${profile.name} AI`}><CharacterMedia character={character} /><span><MessageCircleMore size={14} /> Chat with {profile.name}</span></button>
             <div className="shipping-track"><i /></div>
             <small>PRODUCT · ENGINEERING · DELIVERY</small>
           </div>
@@ -408,15 +416,15 @@ function DesktopCore() {
             onPointerDown={() => focusWindow(item.id)}
             onAnimationEnd={() => { if (item.minimizing) finishMinimize(item.id); }}
             role="dialog"
-            aria-label={item.title}
+            aria-label={item.id === "lanaya" ? `${profile.name} Intelligence` : item.title}
           >
             <div className="window-titlebar" onDoubleClick={() => maximizeWindow(item.id)} onPointerDown={(event) => startDrag(event, item.id)}>
               <div className="traffic-lights">
-                <button className="close" onClick={() => closeWindow(item.id)} aria-label={`Close ${item.title}`}><X size={9} /></button>
-                <button className="minimize" onClick={() => minimizeWindow(item.id)} aria-label={`Minimize ${item.title}`}><Minus size={9} /></button>
-                <button className="maximize" onClick={() => maximizeWindow(item.id)} aria-label={`${item.maximized ? "Restore" : "Maximize"} ${item.title}`}>{item.maximized ? <Minimize2 size={8} /> : <Maximize2 size={8} />}</button>
+                <button className="close" onClick={() => closeWindow(item.id)} aria-label={`Close ${item.id === "lanaya" ? profile.name : item.title}`}><X size={9} /></button>
+                <button className="minimize" onClick={() => minimizeWindow(item.id)} aria-label={`Minimize ${item.id === "lanaya" ? profile.name : item.title}`}><Minus size={9} /></button>
+                <button className="maximize" onClick={() => maximizeWindow(item.id)} aria-label={`${item.maximized ? "Restore" : "Maximize"} ${item.id === "lanaya" ? profile.name : item.title}`}>{item.maximized ? <Minimize2 size={8} /> : <Maximize2 size={8} />}</button>
               </div>
-              <span>{item.title}</span>
+              <span>{item.id === "lanaya" ? `${profile.name} Intelligence` : item.title}</span>
               <div className="titlebar-spacer" />
             </div>
 
@@ -534,7 +542,7 @@ function DesktopCore() {
               {item.id === "notebook" && <NotebookApp />}
               {item.id === "stickies" && <StickyNotesApp />}
               {item.id === "mines" && <MinesweeperApp />}
-              {item.id === "lanaya" && <LanayaChatApp />}
+              {item.id === "lanaya" && <AssistantChatApp character={character} />}
             </div>
           </section>
         ))}
@@ -542,16 +550,17 @@ function DesktopCore() {
         <nav className="dock" aria-label="Application dock">
           {(Object.keys(appMeta) as AppId[]).map((id) => {
             const app = appMeta[id];
+            const label = id === "lanaya" ? `${profile.name} AI` : app.label;
             const Icon = app.icon;
             const appWindow = windows.find((window) => window.id === id);
-            return <button key={id} className={appWindow?.minimized ? "is-minimized" : ""} onClick={() => openWindow(id)} aria-label={`Open ${app.label}`} data-label={appWindow?.minimized ? `Restore ${app.label}` : app.label}><span className={`dock-icon app-${app.tone}`}><Icon size={24} /></span>{appWindow?.open && <i />}</button>;
+            return <button key={id} className={appWindow?.minimized ? "is-minimized" : ""} onClick={() => openWindow(id)} aria-label={`Open ${label}`} data-label={appWindow?.minimized ? `Restore ${label}` : label}><span className={`dock-icon app-${app.tone}`}><Icon size={24} /></span>{appWindow?.open && <i />}</button>;
           })}
           <span className="dock-divider" />
           <a href="mailto:honormorethangold@gmail.com" aria-label="Email Kassym" data-label="Email"><span className="dock-icon app-green"><Mail size={24} /></span></a>
         </nav>
 
         <div className="desktop-signature"><Sparkles size={12} /> KY/OS · BUILT END TO END</div>
-        {desktopMenu && <div className="desktop-context-menu" style={{ left: desktopMenu.x, top: desktopMenu.y }} onClick={(event) => event.stopPropagation()}><button onClick={() => { openWindow("files"); setDesktopMenu(null); }}><Folder size={14} /> New Finder Window</button><button onClick={() => { openWindow("files"); setDesktopMenu(null); }}>New Folder</button><hr /><button onClick={() => { setTheme("sky"); setDesktopMenu(null); }}>Change Wallpaper</button><button onClick={() => { setControlCenter(true); setDesktopMenu(null); }}>Display Settings…</button><hr /><button onClick={() => { openWindow("lanaya"); setDesktopMenu(null); }}><MessageCircleMore size={14} /> Ask Lanaya</button></div>}
+        {desktopMenu && <div className="desktop-context-menu" style={{ left: desktopMenu.x, top: desktopMenu.y }} onClick={(event) => event.stopPropagation()}><button onClick={() => { openWindow("files"); setDesktopMenu(null); }}><Folder size={14} /> New Finder Window</button><button onClick={() => { openWindow("files"); setDesktopMenu(null); }}>New Folder</button><hr /><span className="context-label">CHANGE WALLPAPER</span>{characterOrder.map((item) => <button key={item} className={character === item ? "active" : ""} onClick={() => { setCharacter(item); setDesktopMenu(null); }}><i className={`context-swatch character-dot-${item}`} /> {characters[item].name}</button>)}<button onClick={() => { setControlCenter(true); setDesktopMenu(null); }}>Display Settings…</button><hr /><button onClick={() => { openWindow("lanaya"); setDesktopMenu(null); }}><MessageCircleMore size={14} /> Ask {profile.name}</button></div>}
       </section>
     </main>
   );

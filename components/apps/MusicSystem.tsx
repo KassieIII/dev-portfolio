@@ -45,10 +45,25 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!audio.current) return;
     audio.current.load();
-    if (continuePlaying.current) audio.current.play().catch(() => setPlaying(false));
+    if (continuePlaying.current) {
+      const nextTrack = tracks[active];
+      const startNext = () => audio.current?.play().catch(() => setPlaying(false));
+      if (nextTrack?.previewUrl) {
+        if (audio.current.readyState >= 2) startNext();
+        else audio.current.addEventListener("canplay", startNext, { once: true });
+      }
+    }
   }, [active, tracks]);
 
-  function select(index: number, autoplay = playing) { continuePlaying.current = autoplay; setActive(index); }
+  function select(index: number, autoplay = playing) {
+    if (!tracks.length) return;
+    continuePlaying.current = autoplay;
+    if (index === active) {
+      if (autoplay && audio.current) { audio.current.currentTime = 0; audio.current.play().catch(() => setPlaying(false)); }
+      return;
+    }
+    setActive(index);
+  }
   function step(delta: number, autoplay = playing) { if (tracks.length) select((active + delta + tracks.length) % tracks.length, autoplay); }
   function toggle() {
     if (!audio.current || !tracks[active]?.previewUrl) return;
@@ -57,7 +72,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   }
 
   const current = tracks[active];
-  return <MusicContext.Provider value={{ tracks, current, active, playing, loading: !tracks.length, volume, setVolume, select, toggle, step }}>{children}<audio ref={audio} src={current?.previewUrl} onEnded={() => step(1, true)} onPause={() => setPlaying(false)} onPlay={() => setPlaying(true)} /></MusicContext.Provider>;
+  return <MusicContext.Provider value={{ tracks, current, active, playing, loading: !tracks.length, volume, setVolume, select, toggle, step }}>{children}<audio ref={audio} src={current?.previewUrl} preload="auto" loop={false} onEnded={() => { continuePlaying.current = true; step(1, true); }} onError={() => { if (continuePlaying.current) step(1, true); }} onPause={() => setPlaying(false)} onPlay={() => setPlaying(true)} /></MusicContext.Provider>;
 }
 
 export function useMusic() {

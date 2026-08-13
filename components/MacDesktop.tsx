@@ -79,19 +79,19 @@ const appMeta: Record<AppId, { title: string; label: string; icon: typeof Folder
 };
 
 const initialWindows: DesktopWindow[] = [
-  { id: "work", title: appMeta.work.title, open: false, minimized: false, maximized: false, minimizing: false, z: 2, x: 122, y: 104 },
-  { id: "about", title: appMeta.about.title, open: false, minimized: false, maximized: false, minimizing: false, z: 3, x: 250, y: 126 },
-  { id: "resume", title: appMeta.resume.title, open: false, minimized: false, maximized: false, minimizing: false, z: 4, x: 310, y: 90 },
-  { id: "terminal", title: appMeta.terminal.title, open: false, minimized: false, maximized: false, minimizing: false, z: 5, x: 205, y: 205 },
-  { id: "stack", title: appMeta.stack.title, open: false, minimized: false, maximized: false, minimizing: false, z: 6, x: 375, y: 158 },
-  { id: "contact", title: appMeta.contact.title, open: false, minimized: false, maximized: false, minimizing: false, z: 7, x: 430, y: 118 },
-  { id: "paint", title: appMeta.paint.title, open: false, minimized: false, maximized: false, minimizing: false, z: 8, x: 170, y: 95 },
-  { id: "photos", title: appMeta.photos.title, open: false, minimized: false, maximized: false, minimizing: false, z: 9, x: 290, y: 110 },
-  { id: "chess", title: appMeta.chess.title, open: false, minimized: false, maximized: false, minimizing: false, z: 10, x: 360, y: 125 },
-  { id: "music", title: appMeta.music.title, open: false, minimized: false, maximized: false, minimizing: false, z: 11, x: 400, y: 100 },
-  { id: "notebook", title: appMeta.notebook.title, open: false, minimized: false, maximized: false, minimizing: false, z: 12, x: 235, y: 90 },
-  { id: "stickies", title: appMeta.stickies.title, open: false, minimized: false, maximized: false, minimizing: false, z: 13, x: 315, y: 120 },
-  { id: "mines", title: appMeta.mines.title, open: false, minimized: false, maximized: false, minimizing: false, z: 14, x: 360, y: 90 },
+  { id: "work", title: appMeta.work.title, open: false, minimized: false, maximized: true, minimizing: false, z: 2, x: 122, y: 104 },
+  { id: "about", title: appMeta.about.title, open: false, minimized: false, maximized: true, minimizing: false, z: 3, x: 250, y: 126 },
+  { id: "resume", title: appMeta.resume.title, open: false, minimized: false, maximized: true, minimizing: false, z: 4, x: 310, y: 90 },
+  { id: "terminal", title: appMeta.terminal.title, open: false, minimized: false, maximized: true, minimizing: false, z: 5, x: 205, y: 205 },
+  { id: "stack", title: appMeta.stack.title, open: false, minimized: false, maximized: true, minimizing: false, z: 6, x: 375, y: 158 },
+  { id: "contact", title: appMeta.contact.title, open: false, minimized: false, maximized: true, minimizing: false, z: 7, x: 430, y: 118 },
+  { id: "paint", title: appMeta.paint.title, open: false, minimized: false, maximized: true, minimizing: false, z: 8, x: 170, y: 95 },
+  { id: "photos", title: appMeta.photos.title, open: false, minimized: false, maximized: true, minimizing: false, z: 9, x: 290, y: 110 },
+  { id: "chess", title: appMeta.chess.title, open: false, minimized: false, maximized: true, minimizing: false, z: 10, x: 360, y: 125 },
+  { id: "music", title: appMeta.music.title, open: false, minimized: false, maximized: true, minimizing: false, z: 11, x: 400, y: 100 },
+  { id: "notebook", title: appMeta.notebook.title, open: false, minimized: false, maximized: true, minimizing: false, z: 12, x: 235, y: 90 },
+  { id: "stickies", title: appMeta.stickies.title, open: false, minimized: false, maximized: true, minimizing: false, z: 13, x: 315, y: 120 },
+  { id: "mines", title: appMeta.mines.title, open: false, minimized: false, maximized: true, minimizing: false, z: 14, x: 360, y: 90 },
 ];
 
 const initialIconPositions = Object.fromEntries((Object.keys(appMeta) as AppId[]).map((id, index) => [id, { x: 62 + Math.floor(index / 5) * 88, y: 62 + (index % 5) * 78 }])) as Record<AppId, { x: number; y: number }>;
@@ -149,6 +149,7 @@ function DesktopCore() {
   const [wifiOn, setWifiOn] = useState(true);
   const [focusOn, setFocusOn] = useState(true);
   const draggedIcon = useRef<AppId | null>(null);
+  const minimizeTimers = useRef<Partial<Record<AppId, number>>>({});
 
   const visibleProjects = projects.slice(0, 6);
   const selectedProject = projects.find((project) => project.slug === activeProject) ?? projects[0];
@@ -184,18 +185,26 @@ function DesktopCore() {
   }
 
   function openWindow(id: AppId) {
+    if (minimizeTimers.current[id]) window.clearTimeout(minimizeTimers.current[id]);
     setWindows((items) => items.map((item) => item.id === id
-      ? { ...item, open: true, minimized: false, minimizing: false, z: topZ + 1 }
+      ? { ...item, open: true, minimized: false, minimizing: false, maximized: true, z: topZ + 1 }
       : item));
   }
 
   function closeWindow(id: AppId) {
+    if (minimizeTimers.current[id]) window.clearTimeout(minimizeTimers.current[id]);
     setWindows((items) => items.map((item) => item.id === id ? { ...item, open: false, minimized: false, minimizing: false } : item));
+  }
+
+  function finishMinimize(id: AppId) {
+    if (minimizeTimers.current[id]) window.clearTimeout(minimizeTimers.current[id]);
+    delete minimizeTimers.current[id];
+    setWindows((items) => items.map((item) => item.id === id && item.minimizing ? { ...item, minimizing: false, minimized: true } : item));
   }
 
   function minimizeWindow(id: AppId) {
     setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: true } : item));
-    window.setTimeout(() => setWindows((items) => items.map((item) => item.id === id ? { ...item, minimizing: false, minimized: true } : item)), 720);
+    minimizeTimers.current[id] = window.setTimeout(() => finishMinimize(id), 560);
   }
 
   function maximizeWindow(id: AppId) {
@@ -387,6 +396,7 @@ function DesktopCore() {
             key={item.id}
             style={item.maximized ? { zIndex: item.z } : { zIndex: item.z, transform: `translate3d(${item.x}px, ${item.y}px, 0)` }}
             onPointerDown={() => focusWindow(item.id)}
+            onAnimationEnd={() => { if (item.minimizing) finishMinimize(item.id); }}
             role="dialog"
             aria-label={item.title}
           >
